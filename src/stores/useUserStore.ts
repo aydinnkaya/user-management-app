@@ -1,16 +1,8 @@
-// src/stores/userStore.ts
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { User } from '@/types/User'
+import type { User, FilterState } from '@/types/User'
 import { useUsers } from '@/composables/useUsers'
 
-// Filter state interface
-interface FilterState {
-  countryFilter: string[]
-  genderFilter: string
-}
-
-// Default filter state
 const createDefaultFilters = (): FilterState => ({
   countryFilter: [],
   genderFilter: '',
@@ -28,7 +20,7 @@ export const useUserStore = defineStore('user', () => {
   const homeFilters = ref<FilterState>(createDefaultFilters())
   const favoritesFilters = ref<FilterState>(createDefaultFilters())
 
-  // Global computed properties (unchanged)
+  // Global computed properties
   const countries = computed(() => [...new Set(users.value.map((u) => u.country))].sort())
   const genders = computed(() => [...new Set(users.value.map((u) => u.gender))].sort())
 
@@ -73,7 +65,6 @@ export const useUserStore = defineStore('user', () => {
     [...new Set(favoriteUsers.value.map((u) => u.country))].sort((a, b) => a.localeCompare(b)),
   )
 
-  // Favorites basic functionality (unchanged)
   const isFavorite = computed(() => {
     return (userId: string) => favoriteUsers.value.some((u) => u.id === userId)
   })
@@ -103,7 +94,6 @@ export const useUserStore = defineStore('user', () => {
   // ACTIONS
   const { fetchUsers: apiFetchUsers } = useUsers()
 
-  // Data fetching (unchanged)
   const fetchUsers = async (count = 100) => {
     if (users.value.length > 0) return
     loading.value = true
@@ -117,12 +107,10 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  // Selection (unchanged)
   const setSelectedUser = (user: User) => {
     selectedUser.value = user
   }
 
-  // Favorites management (unchanged)
   const addToFavorites = (user: User) => {
     if (!isFavorite.value(user.id)) {
       favoriteUsers.value.push(user)
@@ -175,7 +163,7 @@ export const useUserStore = defineStore('user', () => {
     favoritesFilters.value = createDefaultFilters()
   }
 
-  // Local storage (unchanged)
+  // Local storage
   const saveFavoritesToStorage = () => {
     try {
       localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers.value))

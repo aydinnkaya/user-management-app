@@ -10,20 +10,16 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
 
-  /* ===== Tailwind v4 + Vue 3 IntelliSense ===== */
   "editor.quickSuggestions": { "strings": true },
 
-  // TS tabanlı config kullanıyorsan yolunu belirt
   "tailwindCSS.experimental.configFile": "./tailwind.config.ts",
 
-  // SFC / TSX içindeki class’ları yakalaması için
   "tailwindCSS.experimental.classRegex": [
     ["class\\s*[:=]\\s*\"([^\"]*)\"", "[\"'`]([^\"'`]*).*?[\"'`]"],
     [":class\\s*=\\s*\"([^\"]+)\""],
     ["className\\s*[:=]\\s*\"([^\"]*)\""]
   ],
 
-  // Dil eşleştirmeleri
   "tailwindCSS.includeLanguages": {
     "vue": "vue",
     "typescript": "typescript",
@@ -31,7 +27,6 @@
     "html": "html"
   },
 
-  // CSS dil sunucusunun @apply / @layer uyarılarını sustur
   "css.lint.unknownAtRules": "ignore",
   "scss.lint.unknownAtRules": "ignore",
   "less.lint.unknownAtRules": "ignore"

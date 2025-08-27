@@ -1,3 +1,4 @@
+// src/types/User.ts
 export interface User {
   id: string
   name: string
@@ -45,4 +46,14 @@ export interface RandomUserApiResponse {
 export interface UserFilters {
   countries: string[]
   gender: string
+}
+
+export interface FilterState {
+  countryFilter: string[]
+  genderFilter: string
+}
+
+export interface PageFilters {
+  home: FilterState
+  favorites: FilterState
 }
