@@ -1,0 +1,38 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "tsconfig.json": "tsconfig.*.json, env.d.ts",
+    "vite.config.*": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*",
+    "package.json": "package-lock.json, pnpm*, .yarnrc*, yarn*, .eslint*, eslint*, .oxlint*, oxlint*, .prettier*, prettier*, .editorconfig"
+  },
+
+  "editor.codeActionsOnSave": { "source.fixAll": "explicit" },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  /* ===== Tailwind v4 + Vue 3 IntelliSense ===== */
+  "editor.quickSuggestions": { "strings": true },
+
+  // TS tabanlı config kullanıyorsan yolunu belirt
+  "tailwindCSS.experimental.configFile": "./tailwind.config.ts",
+
+  // SFC / TSX içindeki class’ları yakalaması için
+  "tailwindCSS.experimental.classRegex": [
+    ["class\\s*[:=]\\s*\"([^\"]*)\"", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    [":class\\s*=\\s*\"([^\"]+)\""],
+    ["className\\s*[:=]\\s*\"([^\"]*)\""]
+  ],
+
+  // Dil eşleştirmeleri
+  "tailwindCSS.includeLanguages": {
+    "vue": "vue",
+    "typescript": "typescript",
+    "javascript": "javascript",
+    "html": "html"
+  },
+
+  // CSS dil sunucusunun @apply / @layer uyarılarını sustur
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore"
+}
