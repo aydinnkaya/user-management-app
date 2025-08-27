@@ -97,29 +97,117 @@ user-management-app-3/
 
 ---
 
-## 📸 Screenshots
+## 🎬 Live Demo
 
+### 📽️ Application Walkthrough
 <div align="center">
 
-### Desktop Views
-<img src="https://github.com/user-attachments/assets/e4488489-a2e4-47cb-8a25-208fb5eb24a5" alt="Home View" width="600" />
+https://github.com/user-attachments/assets/af9a1fcf-5fc1-48d0-9d62-d89cda460946
 
-<img src="https://github.com/user-attachments/assets/17a6702f-532c-44cc-838d-1894c57a2b2a" alt="User Profile" width="600" />
-<img width="1466" height="917" alt="Screenshot 2025-08-27 at 01 07 00" src="https://github.com/user-attachments/assets/50dba6fb-97f3-4f02-ae74-988964ae2484" /><img width="1466" height="917" alt="Screenshot 2025-08-27 at 01 06 49" src="https://github.com/user-attachments/assets/664a15cb-1a44-4a78-8c57-98684c803257" />
-<img width="1466" height="917" alt="Screenshot 2025-08-27 at 00 45 30" src="https://github.com/user-attachments/assets/c48a3896-dcb3-4e75-a075-ad77cb82666c" />
-<img width="1466" height="920" alt="Screenshot 2025-08-27 at 00 45 16" src="https://github.com/user-attachments/assets/61518d79-f726-4f4b-901b-2173e02dfe8f" />
+<br><em>🚀 Complete application demo showcasing responsive design, filtering capabilities, and user management features</em>
+</div>
 
+---
 
+## 📸 Application Screenshots
 
-### User Management
-<img src="https://github.com/user-attachments/assets/21217e13-e98a-49c7-baef-9a5f9359c105" alt="User Directory" width="600" />
+### 🏠 Home View & User Directory
+<div align="center">
+<img width="600" alt="Home View Desktop" src="https://github.com/user-attachments/assets/61518d79-f726-4f4b-901b-2173e02dfe8f" />
+<br><em>Desktop - Home view with user directory and filtering</em>
+</div>
 
-<img src="https://github.com/user-attachments/assets/9e87deb5-4dee-46db-b2eb-22f22ee51012" alt="Favorites View" width="600" />
+### 🔍 Explore View & User Listings
+<div align="center">
+<img width="600" alt="Explore View Desktop" src="https://github.com/user-attachments/assets/dcad5664-841d-477e-9202-cfc1d40b8b2c" />
+<br><em>Desktop - Explore view with advanced user browsing</em>
+</div>
 
-### Responsive Design
-<img src="https://github.com/user-attachments/assets/330a6bf6-2442-4789-94f8-3c638d4a9737" alt="Mobile Navigation" width="400" />
-<img src="https://github.com/user-attachments/assets/4803763e-10b1-4405-88fd-7ef8a09b4b2b" alt="Mobile User List" width="400" />
+### ⭐ Favorites View
+<div align="center">
+<img width="600" alt="Favorites View Desktop" src="https://github.com/user-attachments/assets/12442d56-fc1f-4a42-89c4-0787e15789ff" />
+<br><em>Desktop - Favorites management with filtering options</em>
+</div>
 
+### 👤 User Profile View
+<div align="center">
+<img width="600" alt="User Profile Desktop" src="https://github.com/user-attachments/assets/4c77ed46-9183-4a92-ad10-3d72cbd65551" />
+<br><em>Desktop - Individual user profile with detailed information</em>
+</div>
+
+### 🎛️ Filter Components
+<div align="center">
+<img width="600" alt="Country Filter Component" src="https://github.com/user-attachments/assets/65dc213f-1f0a-489e-ac99-eeb2fd772762" />
+<br><em>Desktop - Country picker component with statistics</em>
+</div>
+
+<div align="center">
+<img width="600" alt="Gender Filter Component" src="https://github.com/user-attachments/assets/ba8b715e-9515-4bcb-9fe6-249395c88cac" />
+<br><em>Desktop - Gender filter component interface</em>
+</div>
+
+### 💬 Chat View
+<div align="center">
+<img width="600" alt="Chat View Desktop" src="https://github.com/user-attachments/assets/ace902b9-d9ab-4a51-8519-6ab9e7ba9d97" />
+<br><em>Desktop - Chat interface and messaging view</em>
+</div>
+
+---
+
+## 📱 Mobile Responsive Views
+
+### 🏠 Mobile Home & Navigation
+<div align="center">
+<img width="300" alt="Mobile Home View" src="https://github.com/user-attachments/assets/7324ce82-9c93-449d-ae85-6294d0c13abd" />
+<br><em>Mobile - Home view with responsive navigation</em>
+</div>
+
+### 👥 Mobile User Management
+<div align="center">
+<img width="300" alt="Mobile User List" src="https://github.com/user-attachments/assets/49405362-de04-429a-adbd-4df4023c2f90" />
+<img width="300" alt="Mobile User Cards" src="https://github.com/user-attachments/assets/f9866e89-0fe0-40bf-a4a9-e746383da66d" />
+<br><em>Mobile - User list and card components</em>
+</div>
+
+### 📱 Mobile Navigation Components
+<div align="center">
+<img width="300" alt="Mobile Navigation Bar" src="https://github.com/user-attachments/assets/330a6bf6-2442-4789-94f8-3c638d4a9737" />
+<img width="300" alt="Mobile Menu" src="https://github.com/user-attachments/assets/7aaec652-3e2c-46af-8036-10785bec5e6d" />
+<br><em>Mobile - Bottom navigation and menu interface</em>
+</div>
+
+### ⭐ Mobile Favorites
+<div align="center">
+<img width="300" alt="Mobile Favorites View" src="https://github.com/user-attachments/assets/791ea48d-25fd-4ab7-a872-e5cdfa642284" />
+<img width="300" alt="Mobile Favorites Management" src="https://github.com/user-attachments/assets/41a95791-58bc-43da-b522-667208c0a12b" />
+<br><em>Mobile - Favorites view and management interface</em>
+</div>
+
+### 🎛️ Mobile Filter Interface
+<div align="center">
+<img width="300" alt="Mobile Filters" src="https://github.com/user-attachments/assets/94bf9caf-189b-442a-a6f0-6b308ac781ec" />
+<br><em>Mobile - Filter components optimized for touch</em>
+</div>
+
+---
+
+## 📱 Tablet Responsive Views
+
+### 🖥️ Tablet Layout Adaptation
+<div align="center">
+<img width="500" alt="Tablet Home View" src="https://github.com/user-attachments/assets/a7b9f0e0-ae68-43b8-9155-4ac892aecdc3" />
+<br><em>Tablet - Home view with adapted layout</em>
+</div>
+
+<div align="center">
+<img width="500" alt="Tablet User Management" src="https://github.com/user-attachments/assets/a97641e0-c0f3-4fad-8b0e-1c538a1b1d64" />
+<br><em>Tablet - User management interface</em>
+</div>
+
+### 🎨 Additional Mobile Interface
+<div align="center">
+<img width="300" alt="Mobile User Interface Detail" src="https://github.com/user-attachments/assets/4803763e-10b1-4405-88fd-7ef8a09b4b2b" />
+<br><em>Mobile - Detailed user interface components</em>
 </div>
 
 ---
@@ -218,8 +306,4 @@ import { HeartIcon as HeartOutline } from '@heroicons/vue/24/outline'
 - **Missing icons** → Check if `@heroicons/vue` is installed and import paths use `/24/solid` or `/24/outline`
 - **Cross-machine inconsistencies** → Commit lockfiles and use `npm ci` for installation
 
----
 
-<div align="center">
-  <p>Made with ❤️ using Vue 3 + TypeScript</p>
-</div>
