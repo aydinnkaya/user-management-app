@@ -1,7 +1,7 @@
 import type { User, RandomUserApiResponse } from '@/types/User'
 
 export function useUsers() {
-  const fetchUsers = async (count: number = 100): Promise<User[]> => {
+  const fetchUsers = async (count: number): Promise<User[]> => {
     try {
       const response = await fetch(
         `https://randomuser.me/api/?results=${count}&inc=gender,name,location,email,dob,picture,login`,
@@ -11,6 +11,7 @@ export function useUsers() {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
+      // Json parse
       const data: RandomUserApiResponse = await response.json()
 
       return data.results.map((apiUser) => ({

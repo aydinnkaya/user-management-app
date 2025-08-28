@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col bg-black text-white">
     <NavBar />
-
     <main class="flex-1 flex justify-center">
       <div class="w-full space-y-6">
         <div class="h-10 pt-8">
