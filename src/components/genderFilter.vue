@@ -25,8 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/stores/useUserStore'
+import { computed } from 'vue'
+import { useUserStore } from '@/stores/userStore'
 
 interface Props {
   modelValue: string
@@ -39,19 +39,16 @@ interface Emits {
 defineProps<Props>()
 const emit = defineEmits<Emits>()
 
-const store = useUserStore()
-const { genders } = storeToRefs(store)
+const userStore = useUserStore()
+
+const genders = computed(() => {
+  const uniqueGenders = new Set<string>()
+  userStore.users.forEach((u) => uniqueGenders.add(u.gender))
+  return Array.from(uniqueGenders)
+})
 
 function handleGenderChange(event: Event) {
   const target = event.target as HTMLSelectElement
   emit('update:modelValue', target.value)
 }
 </script>
-
-<style scoped>
-@media (max-width: 640px) {
-  select {
-    font-size: 24px;
-  }
-}
-</style>

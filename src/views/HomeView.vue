@@ -1,20 +1,22 @@
 <template>
   <div class="min-h-screen flex flex-col bg-black text-white">
+    <!-- Navigation bar -->
     <NavBar />
+
     <main class="flex-1 flex justify-center">
       <div class="w-full space-y-6">
+        <!-- Filters: Gender & Country -->
         <div class="h-10 pt-8">
           <div class="max-w-screen-xl mx-auto px-4">
             <div class="flex justify-end items-center gap-2 sm:gap-2 md:gap-3">
               <GenderFilter
-                :model-value="homeFilters.genderFilter"
-                @update:model-value="setHomeGenderFilter"
+                :model-value="homeGenderFilter"
+                @update:model-value="(val) => (homeGenderFilter = val)"
               />
-
-              <CountryPicker
-                :model-value="homeFilters.countryFilter"
-                @update:model-value="setHomeCountryFilter"
-                :options="countries"
+              <CountryPickers
+                :model-value="homeCountryFilter"
+                @update:model-value="(val) => (homeCountryFilter = val)"
+                :options="COUNTRY_LIST"
                 :counts="homeCountryCounts"
                 class="w-16 sm:w-16 md:w-16"
               />
@@ -22,7 +24,9 @@
           </div>
         </div>
 
+        <!-- User List / Loading / Error States -->
         <div class="max-w-screen-xl mx-auto px-4 pt-6">
+          <!-- Loading Indicator -->
           <div v-if="loading" class="flex justify-center items-center py-10">
             <div class="relative">
               <div
@@ -31,6 +35,7 @@
             </div>
           </div>
 
+          <!-- Error Message -->
           <div
             v-else-if="error"
             class="rounded-lg border border-red-400 bg-red-500/10 text-red-200 px-4 py-3 flex items-center justify-between"
@@ -53,54 +58,59 @@
             </button>
           </div>
 
-          <!-- No Users at All -->
-          <div v-else-if="users.length === 0" class="text-center py-12 sm:py-16">
-            <div class="mb-5 sm:mb-6">
-              <span class="text-5xl sm:text-6xl">👥</span>
-            </div>
-            <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-300 mb-2 sm:mb-3">
-              No users available
-            </h2>
-            <p class="text-gray-500 mb-5 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-2">
-              We couldn't load any users at this time.
-            </p>
-            <button
-              @click="fetchUsers(100)"
-              class="inline-block px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
-            >
-              Reload Users
-            </button>
-          </div>
-
-          <div v-else-if="homeFilteredUsers.length === 0" class="text-center py-12 sm:py-16">
-            <div class="mb-5 sm:mb-6">
-              <span class="text-5xl sm:text-6xl">🔍</span>
-            </div>
-            <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-300 mb-2 sm:mb-3">
-              No users match your filters
-            </h2>
-            <p class="text-gray-500 mb-5 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-2">
-              Try adjusting your filters to see more users.
-            </p>
-            <button
-              @click="clearHomeFilters"
-              class="inline-block px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
-            >
-              Clear Filters
-            </button>
-          </div>
-
+          <!-- Main Content -->
           <div v-else>
-            <UserList
-              :users="homeFilteredUsers"
-              :loading="false"
-              :error="null"
-              grid-class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-2 md:gap-3"
-              empty-message="No users found."
-              empty-sub-message="Try adjusting your filters."
-              :show-loading="false"
-              :show-error="false"
-            />
+            <!-- No Users Available -->
+            <div v-if="users.length === 0" class="text-center py-12 sm:py-16">
+              <div class="mb-5 sm:mb-6">
+                <span class="text-5xl sm:text-6xl">👥</span>
+              </div>
+              <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-300 mb-2 sm:mb-3">
+                No users available
+              </h2>
+              <p class="text-gray-500 mb-5 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-2">
+                We couldn't load any users at this time.
+              </p>
+              <button
+                @click="fetchUsers(100)"
+                class="inline-block px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
+              >
+                Reload Users
+              </button>
+            </div>
+
+            <!-- No Users Match Filters -->
+            <div v-else-if="homeFilteredUsers.length === 0" class="text-center py-12 sm:py-16">
+              <div class="mb-5 sm:mb-6">
+                <span class="text-5xl sm:text-6xl">🔍</span>
+              </div>
+              <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-300 mb-2 sm:mb-3">
+                No users match your filters
+              </h2>
+              <p class="text-gray-500 mb-5 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-2">
+                Try adjusting your filters to see more users.
+              </p>
+              <button
+                @click="clearHomeFilters"
+                class="inline-block px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
+              >
+                Clear Filters
+              </button>
+            </div>
+
+            <!-- User List -->
+            <div v-else>
+              <UserList
+                :users="homeFilteredUsers"
+                :loading="false"
+                :error="null"
+                grid-class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-2 md:gap-3"
+                empty-message="No users found."
+                empty-sub-message="Try adjusting your filters."
+                :show-loading="false"
+                :show-error="false"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -109,21 +119,44 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { storeToRefs } from 'pinia'
+import { COUNTRY_LIST } from '@/lib/countries'
 import NavBar from '@/components/NavBar.vue'
 import UserList from '@/components/UserList.vue'
 import GenderFilter from '@/components/genderFilter.vue'
-import CountryPicker from '@/components/CountryPicker.vue'
-import { useUserStore } from '@/stores/useUserStore'
+import CountryPickers from '@/components/CountryPickers.vue'
+
+import { useUserStore } from '@/stores/userStore'
+import { useFilterStore } from '@/stores/filterStore'
 
 const userStore = useUserStore()
-const { homeFilters, homeFilteredUsers, homeCountryCounts, countries, users, loading, error } =
-  storeToRefs(userStore)
+const filterStore = useFilterStore()
+const { users, loading, error } = storeToRefs(userStore)
+const { fetchUsers } = userStore
 
-const { fetchUsers, setHomeCountryFilter, setHomeGenderFilter, clearHomeFilters } = userStore
+const homeCountryFilter = computed<string[]>({
+  get: () => filterStore.pageFilters.home.countryFilter,
+  set: (val: string[]) => filterStore.updateCountryFilter('home', val),
+})
 
-onMounted(() => {
-  fetchUsers(100)
+const homeGenderFilter = computed<string>({
+  get: () => filterStore.pageFilters.home.genderFilter,
+  set: (val: string) => filterStore.updateGenderFilter('home', val),
+})
+
+const homeFilteredUsers = computed(() => {
+  if (!users.value || users.value.length === 0) {
+    return []
+  }
+  return filterStore.getFilteredUsers(users.value, filterStore.pageFilters.home)
+})
+
+const homeCountryCounts = computed(() => filterStore.countryCounts)
+
+const clearHomeFilters = () => filterStore.clearFilters('home')
+
+onMounted(async () => {
+  await fetchUsers(100)
 })
 </script>
