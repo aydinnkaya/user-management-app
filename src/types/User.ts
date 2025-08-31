@@ -64,3 +64,13 @@ export interface PageFilters {
   home: FilterState
   favorites: FilterState
 }
+
+//** * Pagination metadata for infinite scroll functionality*/
+export interface PaginationState {
+  currentPage: number
+  hasMore: boolean
+  isLoading: boolean
+  isInitialLoad: boolean
+  totalLoaded: number
+  pageSize: number
+}

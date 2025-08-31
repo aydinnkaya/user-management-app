@@ -12,7 +12,7 @@
       draggable="false"
     />
 
-    <!-- Gradient overlays for better text readability -->
+    <!-- Readability overlays -->
     <div
       class="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/25 to-transparent"
     />
@@ -23,13 +23,13 @@
     <!-- Favorite Toggle Button -->
     <button
       class="absolute top-1.5 right-1.5 flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-white/80 backdrop-blur-md shadow-md transition hover:bg-white active:scale-95"
-      :class="{ 'bg-rose-100': favoritesStore.isFavorite(user.id) }"
+      :class="{ 'bg-rose-100': isFavorite }"
       @click.stop="handleFavoriteClick"
       aria-label="Toggle favorite"
-      :title="favoritesStore.isFavorite(user.id) ? 'Remove from favorites' : 'Add to favorites'"
+      :title="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
     >
       <HeartSolid
-        v-if="favoritesStore.isFavorite(user.id)"
+        v-if="isFavorite"
         class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-rose-600"
         aria-hidden="true"
       />
@@ -40,7 +40,17 @@
       />
     </button>
 
-    <!-- User Info: Age, Country Flag, Name -->
+    <!-- Loading State  -->
+    <div
+      v-if="isLoading"
+      class="absolute inset-0 bg-black/20 flex items-center justify-center"
+    >
+      <div
+        class="animate-spin rounded-full h-8 w-8 border-2 border-white/30 border-t-white"
+      ></div>
+    </div>
+
+    <!-- Bottom info block -->
     <div
       class="absolute inset-x-0 bottom-0 px-3 sm:px-4 md:px-5 pb-2.5 sm:pb-3 md:pb-3.5 pt-2 md:pt-2.5"
     >
@@ -79,31 +89,48 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import type { User } from '@/types/User'
-import { useSelectedUserStores } from '@/stores/selectedUserStore'
-import { useFavoritesStore } from '@/stores/favoritesStore'
-import { getFlagUrl } from '@/lib/flags'
-import { HeartIcon as HeartSolid } from '@heroicons/vue/24/solid'
-import { HeartIcon as HeartOutline } from '@heroicons/vue/24/outline'
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import type { User } from "@/types/User";
+import { useSelectedUserStores } from "@/stores/selectedUserStore";
+import { useFavoritesStore } from "@/stores/favoritesStore";
+import { getFlagUrl } from "@/lib/flags";
+import { HeartIcon as HeartSolid } from "@heroicons/vue/24/solid";
+import { HeartIcon as HeartOutline } from "@heroicons/vue/24/outline";
 
 interface Props {
-  user: User
+  user: User;
+  isLoading?: boolean;
+  showDebugInfo?: boolean;
 }
-const props = defineProps<Props>()
 
-const router = useRouter()
-const favoritesStore = useFavoritesStore()
-const selectedUserStores = useSelectedUserStores()
+const props = withDefaults(defineProps<Props>(), {
+  isLoading: false,
+  showDebugInfo: false,
+});
 
-const flagSrc = getFlagUrl(props.user.country, 20)
+const router = useRouter();
+const favoritesStore = useFavoritesStore();
+const selectedUserStores = useSelectedUserStores();
+
+const flagSrc = getFlagUrl(props.user.country, 20);
+
+const isFavorite = computed(() => favoritesStore.isFavorite(props.user.id));
 
 const handleCardClick = () => {
-  selectedUserStores.setSelectedUser(props.user)
-  router.push(`/user/${props.user.id}`)
-}
+  selectedUserStores.setSelectedUser(props.user);
+  router.push(`/user/${props.user.id}`);
+};
 
 const handleFavoriteClick = () => {
-  favoritesStore.toggleFavorite(props.user)
-}
+  if (typeof favoritesStore.toggleFavorite === "function") {
+    favoritesStore.toggleFavorite(props.user);
+    return;
+  }
+  if (isFavorite.value) {
+    favoritesStore.removeFromFavorites?.(props.user.id);
+  } else {
+    favoritesStore.addToFavorites?.(props.user);
+  }
+};
 </script>
