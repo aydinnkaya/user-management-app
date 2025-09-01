@@ -30,7 +30,9 @@ export const useFilterStore = defineStore('filterUsers', () => {
       return counts
     }
 
+    // TODO: Optimize with Map lookup for large datasets (O(n*m) -> O(n))
     users.forEach((user: User) => {
+      // TODO: Optimize country lookup when user count > 1000
       const country = COUNTRY_LIST.find((c) => c.name.toLowerCase() === user.country.toLowerCase())
 
       if (country && counts[country.iso2] !== undefined) {
@@ -46,12 +48,6 @@ export const useFilterStore = defineStore('filterUsers', () => {
       ? getCountryCounts(allUsers.value || [])
       : getCountryCounts(favoriteUsers.value || [])
   }
-
-  const countryCounts = computed<Record<string, number>>(() => getCountryCountsForPage('home'))
-
-  const favoriteCountryCounts = computed<Record<string, number>>(() =>
-    getCountryCountsForPage('favorites'),
-  )
 
   const getFilteredUsers = (users: User[], filterState: FilterState): User[] => {
     if (!users?.length) {
@@ -85,6 +81,7 @@ export const useFilterStore = defineStore('filterUsers', () => {
   )
 
   const updateCountryFilter = (page: keyof PageFilters, countries: string[]): void => {
+    //* Use spread to create a new array reference */
     pageFilters.value[page].countryFilter = [...countries]
   }
 
@@ -107,8 +104,6 @@ export const useFilterStore = defineStore('filterUsers', () => {
 
   return {
     pageFilters,
-    countryCounts,
-    favoriteCountryCounts,
     homeFilteredUsers,
     favoritesFilteredUsers,
     getFilteredUsers,

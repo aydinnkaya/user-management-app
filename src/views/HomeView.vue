@@ -100,16 +100,7 @@
 
             <!-- User List -->
             <div v-else>
-              <UserList
-                :users="homeFilteredUsers"
-                :loading="false"
-                :error="null"
-                grid-class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-2 md:gap-3"
-                empty-message="No users found."
-                empty-sub-message="Try adjusting your filters."
-                :show-loading="false"
-                :show-error="false"
-              />
+              <UserList :users="homeFilteredUsers" />
             </div>
           </div>
         </div>
@@ -126,7 +117,6 @@ import NavBar from '@/components/NavBar.vue'
 import UserList from '@/components/UserList.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
-
 import { useUserStore } from '@/stores/userStore'
 import { useFilterStore } from '@/stores/filterStore'
 
@@ -149,7 +139,7 @@ const homeFilteredUsers = computed(() => {
   if (!users.value || users.value.length === 0) {
     return []
   }
-  return filterStore.getFilteredUsers(users.value, filterStore.pageFilters.home)
+  return filterStore.homeFilteredUsers
 })
 
 const currentCounts = computed(() => filterStore.getCountryCountsForPage('home'))

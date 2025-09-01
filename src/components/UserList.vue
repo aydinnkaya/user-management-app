@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import UserCard from '@/components/UserCard.vue'
+import UserCard from '@/components/userCard.vue'
 import type { User } from '@/types/User'
 
 interface Props {

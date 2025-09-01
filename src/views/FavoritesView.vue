@@ -70,14 +70,7 @@
 
         <!-- Favorite user list -->
         <div v-else>
-          <UserList
-            :users="favoritesFilteredUsers"
-            :loading="false"
-            :error="null"
-            grid-class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-2 md:gap-3"
-            empty-message="No favorite users found"
-            empty-sub-message="Try adjusting your filters or explore users to add favorites."
-          />
+          <UserList :users="favoritesFilteredUsers" />
         </div>
       </div>
     </main>
@@ -90,7 +83,6 @@ import { storeToRefs } from 'pinia'
 import { useFavoritesStore } from '@/stores/favoritesStore'
 import { useFilterStore } from '@/stores/filterStore'
 import { COUNTRY_LIST } from '@/lib/countries'
-
 import UserList from '@/components/UserList.vue'
 import NavBar from '@/components/NavBar.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
