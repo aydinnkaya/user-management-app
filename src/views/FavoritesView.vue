@@ -7,16 +7,16 @@
         <!-- Filters -->
         <div class="flex items-center justify-end flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
           <GenderFilter
-            :model-value="favoritesPageFilter.genderFilter"
-            @update:model-value="(val) => setFavoritesGenderFilter(val)"
+            :model-value="favoritesGenderFilter"
+            @update:model-value="(val) => (favoritesGenderFilter = val)"
           />
 
           <div class="w-auto">
-            <CountryPicker
-              :model-value="favoritesPageFilter.countryFilter"
-              @update:model-value="(val) => setFavoritesCountryFilter(val)"
-              :options="favoriteCountriesSorted"
-              :counts="countryCounts"
+            <CountryPickers
+              :model-value="favoritesCountryFilter"
+              @update:model-value="(val) => (favoritesCountryFilter = val)"
+              :options="COUNTRY_LIST"
+              :counts="currentCounts"
               class="w-auto"
             />
           </div>
@@ -61,7 +61,7 @@
             Try adjusting your filters to see your favorite users.
           </p>
           <button
-            @click="clearFavoritesFilters()"
+            @click="filterStore.clearFilters('favorites')"
             class="inline-block px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
           >
             Clear Filters
@@ -89,10 +89,11 @@ import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useFavoritesStore } from '@/stores/favoritesStore'
 import { useFilterStore } from '@/stores/filterStore'
+import { COUNTRY_LIST } from '@/lib/countries'
 
 import UserList from '@/components/UserList.vue'
 import NavBar from '@/components/NavBar.vue'
-import CountryPicker from '@/components/CountryPicker.vue'
+import CountryPickers from '@/components/CountryPickers.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 
 const favoritesStore = useFavoritesStore()
@@ -100,36 +101,21 @@ const filterStore = useFilterStore()
 
 const { favoriteUsers } = storeToRefs(favoritesStore)
 const { favoritesFilteredUsers } = storeToRefs(filterStore)
+const currentCounts = computed(() => filterStore.getCountryCountsForPage('favorites'))
 
-const favoritesPageFilter = filterStore.pageFilters.favorites
-
-const countryCounts = computed(() => {
-  const counts: Record<string, number> = {}
-  favoriteUsers.value.forEach((user) => {
-    counts[user.country] = (counts[user.country] || 0) + 1
-  })
-  return counts
+const favoritesCountryFilter = computed<string[]>({
+  get: () => filterStore.pageFilters.favorites.countryFilter,
+  set: (val: string[]) => filterStore.updateCountryFilter('favorites', val),
 })
 
-const favoriteCountriesSorted = computed(() =>
-  Object.keys(countryCounts.value).sort((a, b) => countryCounts.value[b] - countryCounts.value[a]),
-)
+const favoritesGenderFilter = computed<string>({
+  get: () => filterStore.pageFilters.favorites.genderFilter,
+  set: (val: string) => filterStore.updateGenderFilter('favorites', val),
+})
 
 const handleClearAllFavorites = () => {
   if (confirm('Are you sure you want to clear all favorites?')) {
     favoritesStore.clearAllFavorites()
   }
-}
-
-const setFavoritesCountryFilter = (countries: string[]) => {
-  filterStore.updateCountryFilter('favorites', countries)
-}
-
-const setFavoritesGenderFilter = (gender: string) => {
-  filterStore.updateGenderFilter('favorites', gender)
-}
-
-const clearFavoritesFilters = () => {
-  filterStore.clearFilters('favorites')
 }
 </script>

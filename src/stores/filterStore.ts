@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import { useUserStore } from './userStore'
 import { useFavoritesStore } from './favoritesStore'
 import { COUNTRY_LIST } from '@/lib/countries'
-import { getFlagCode } from '@/lib/flag'
 import type { User, PageFilters, FilterState } from '@/types/User'
 
 const createDefaultFilters = (): FilterState => ({
@@ -23,48 +22,54 @@ export const useFilterStore = defineStore('filterUsers', () => {
     favorites: createDefaultFilters(),
   })
 
-  const countryCounts = computed<Record<string, number>>(() => {
+  const getCountryCounts = (users: User[]): Record<string, number> => {
     const counts: Record<string, number> = {}
-    COUNTRY_LIST.forEach((c) => (counts[c.iso2] = 0))
+    COUNTRY_LIST.forEach((country) => (counts[country.iso2] = 0))
 
-    if (!allUsers.value || allUsers.value.length === 0) {
+    if (!users?.length) {
       return counts
     }
 
-    allUsers.value.forEach((user: User) => {
-      const normalizedCountry = getFlagCode(user.country)
-      if (normalizedCountry && counts.hasOwnProperty(normalizedCountry)) {
-        counts[normalizedCountry]++
+    users.forEach((user: User) => {
+      const country = COUNTRY_LIST.find((c) => c.name.toLowerCase() === user.country.toLowerCase())
+
+      if (country && counts[country.iso2] !== undefined) {
+        counts[country.iso2]++
       }
     })
-    return counts
-  })
 
-  /**
-   * Generic filter function
-   * Filters a given user array by country and gender
-   *
-   * @param users - Array of users to filter
-   * @param filterState - Filter state to apply
-   * @returns Filtered users
-   */
+    return counts
+  }
+
+  const getCountryCountsForPage = (page: keyof PageFilters): Record<string, number> => {
+    return page === 'home'
+      ? getCountryCounts(allUsers.value || [])
+      : getCountryCounts(favoriteUsers.value || [])
+  }
+
+  const countryCounts = computed<Record<string, number>>(() => getCountryCountsForPage('home'))
+
+  const favoriteCountryCounts = computed<Record<string, number>>(() =>
+    getCountryCountsForPage('favorites'),
+  )
+
   const getFilteredUsers = (users: User[], filterState: FilterState): User[] => {
-    if (!users || users.length === 0) {
+    if (!users?.length) {
       return []
     }
 
     const { countryFilter, genderFilter } = filterState
 
-    if ((!countryFilter || countryFilter.length === 0) && !genderFilter) {
+    if (!countryFilter?.length && !genderFilter) {
       return users
     }
 
     return users.filter((user: User) => {
-      const countryCode = getFlagCode(user.country)
+      const country = COUNTRY_LIST.find((c) => c.name.toLowerCase() === user.country.toLowerCase())
+
       const matchesCountry =
-        !countryFilter ||
-        countryFilter.length === 0 ||
-        (countryCode && countryFilter.includes(countryCode))
+        !countryFilter?.length || (country && countryFilter.includes(country.iso2))
+
       const matchesGender = !genderFilter || user.gender === genderFilter
 
       return matchesCountry && matchesGender
@@ -91,14 +96,27 @@ export const useFilterStore = defineStore('filterUsers', () => {
     pageFilters.value[page] = createDefaultFilters()
   }
 
+  const getFilterState = (page: keyof PageFilters): FilterState => {
+    return pageFilters.value[page]
+  }
+
+  const hasActiveFilters = (page: keyof PageFilters): boolean => {
+    const filters = pageFilters.value[page]
+    return filters.countryFilter?.length > 0 || !!filters.genderFilter
+  }
+
   return {
     pageFilters,
     countryCounts,
+    favoriteCountryCounts,
     homeFilteredUsers,
     favoritesFilteredUsers,
     getFilteredUsers,
+    getCountryCountsForPage,
     updateCountryFilter,
     updateGenderFilter,
     clearFilters,
+    getFilterState,
+    hasActiveFilters,
   }
 })

@@ -17,7 +17,7 @@
                 :model-value="homeCountryFilter"
                 @update:model-value="(val) => (homeCountryFilter = val)"
                 :options="COUNTRY_LIST"
-                :counts="homeCountryCounts"
+                :counts="currentCounts"
                 class="w-16 sm:w-16 md:w-16"
               />
             </div>
@@ -152,7 +152,7 @@ const homeFilteredUsers = computed(() => {
   return filterStore.getFilteredUsers(users.value, filterStore.pageFilters.home)
 })
 
-const homeCountryCounts = computed(() => filterStore.countryCounts)
+const currentCounts = computed(() => filterStore.getCountryCountsForPage('home'))
 
 const clearHomeFilters = () => filterStore.clearFilters('home')
 

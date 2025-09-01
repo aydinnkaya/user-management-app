@@ -96,7 +96,6 @@ import { useFavoritesStore } from '@/stores/favoritesStore'
 const route = useRoute()
 const favoritesStore = useFavoritesStore()
 
-// direct computed üzerinden bağlanıyoruz
 const favoriteCount = computed(() => favoritesStore.favoriteUsers.length)
 
 const isScrolled = ref(false)
