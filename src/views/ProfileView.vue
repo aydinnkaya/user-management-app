@@ -4,7 +4,7 @@
     <NavBar />
 
     <!-- User Profile Main Section -->
-    <main v-if="user" class="max-w-5xl mx-auto px-4 py-6">
+    <main v-if="user" class="max-w-5xl mx-auto px-4 py-6 pb-24 md:pb-8">
       <!-- Profile Header -->
       <div class="px-6 sm:px-8 py-6 flex flex-row items-center gap-6">
         <img
