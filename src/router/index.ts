@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { nextTick } from 'vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,16 @@ const router = createRouter({
       component: () => import('../views/ProfileView.vue'),
     },
   ],
+})
+
+router.afterEach(async (to) => {
+  if (to.name === 'profile' || to.name === 'user') {
+    await nextTick()
+    const scrollContainer = document.getElementById('scroll-container')
+    if (scrollContainer) {
+      scrollContainer.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    }
+  }
 })
 
 export default router

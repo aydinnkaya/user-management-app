@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-black text-white">
+  <div class="min-h-screen bg-black text-white overscroll-none">
     <!-- Navigation bar -->
     <NavBar />
 
@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 import NavBar from '@/components/NavBar.vue'
 import { useUserStore } from '@/stores/userStore'
@@ -97,9 +97,12 @@ const { users } = storeToRefs(userStore)
 
 const user = computed<User | null>(() => users.value[0] ?? null)
 
-onMounted(() => {
-  userStore.fetchUsers(100)
-  window.scrollTo({ top: 0, behavior: 'instant' })
+onMounted(async () => {
+  await nextTick()
+  const scrollContainer = document.getElementById('scroll-container')
+  if (scrollContainer) {
+    scrollContainer.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }
 })
 
 const capitalizeGender = (g: string) => g.charAt(0).toUpperCase() + g.slice(1)

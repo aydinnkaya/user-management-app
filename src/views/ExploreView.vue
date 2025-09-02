@@ -1,10 +1,10 @@
-<template>
-  <div class="min-h-screen bg-black text-white flex flex-col">
+<template class="o">
+  <div class="flex flex-col h-screen bg-black text-white overflow-hidden overscroll-none">
     <!-- Navigation bar -->
     <NavBar />
 
     <!-- Main Empty State / Discover Section -->
-    <main class="flex-1 flex items-center justify-center px-4">
+    <main class="flex-1 flex items-center justify-center px-4 overflow-hidden overscroll-none">
       <div class="text-center max-w-xl mx-auto">
         <!-- Icon  -->
         <div class="mx-auto mb-6 flex items-center justify-center">

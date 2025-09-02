@@ -1,9 +1,8 @@
 <template>
-  <div
-    id="app"
-    class="h-screen w-full bg-appbg text-white overflow-y-auto overscroll-none overscroll-y-none fixed inset-0"
-  >
-    <RouterView />
+  <div id="app" class="flex flex-col min-h-screen h-screen bg-black text-white overflow-hidden">
+    <div id="scroll-container" class="flex-1 overflow-y-auto overscroll-none">
+      <RouterView />
+    </div>
   </div>
 </template>
 

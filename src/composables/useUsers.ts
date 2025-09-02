@@ -1,4 +1,4 @@
-import type { User, RandomUserApiResponse } from '@/types/user'
+import type { User, RandomUserApiResponse } from '@/types/User'
 
 export function useUsers() {
   const fetchUsers = async (count: number): Promise<User[]> => {

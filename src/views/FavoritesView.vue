@@ -2,7 +2,7 @@
   <div class="min-h-screen flex flex-col bg-black text-white">
     <NavBar />
 
-    <main class="flex-1 flex justify-center">
+    <main class="flex-1 flex justify-center overscroll-contain">
       <div class="w-full max-w-screen-2xl px-3 sm:px-4 md:px-6 py-6 sm:py-8">
         <!-- Filters -->
         <div class="flex items-center justify-end flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
