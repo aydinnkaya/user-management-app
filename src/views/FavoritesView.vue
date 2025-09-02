@@ -10,7 +10,6 @@
             :model-value="favoritesGenderFilter"
             @update:model-value="(val) => (favoritesGenderFilter = val)"
           />
-
           <div class="w-auto">
             <CountryPickers
               :model-value="favoritesCountryFilter"
@@ -26,47 +25,29 @@
             @click="handleClearAllFavorites"
             class="px-3 sm:px-4 py-1.5 sm:py-2 bg-red-600 hover:bg-red-700 text-white rounded-full transition-colors text-xs sm:text-sm font-medium"
           >
-            Clear All Favorites
+            {{ favoritesTexts.clearAll }}
           </button>
         </div>
 
         <!-- No favorites at all -->
-        <div v-if="favoriteUsers.length === 0" class="text-center py-12 sm:py-16">
-          <div class="mb-5 sm:mb-6">
-            <span class="text-5xl sm:text-6xl">💔</span>
-          </div>
-          <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-300 mb-2 sm:mb-3">
-            No favorite users found
-          </h2>
-          <p class="text-gray-500 mb-5 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-2">
-            You haven't added any users to your favorites yet.
-          </p>
-          <router-link
-            to="/"
-            class="inline-block px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
-          >
-            Explore Users
-          </router-link>
-        </div>
+        <EmptyState
+          v-if="favoriteUsers.length === 0"
+          :title="favoritesTexts.noFavorites.title"
+          :message="favoritesTexts.noFavorites.message"
+          :buttonText="favoritesTexts.noFavorites.buttonText"
+          icon="/logo/broken-heart.svg"
+          route="/"
+        />
 
         <!-- No users match filters -->
-        <div v-else-if="favoritesFilteredUsers.length === 0" class="text-center py-12 sm:py-16">
-          <div class="mb-5 sm:mb-6">
-            <span class="text-5xl sm:text-6xl">🔍</span>
-          </div>
-          <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-300 mb-2 sm:mb-3">
-            No users match your filters
-          </h2>
-          <p class="text-gray-500 mb-5 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-2">
-            Try adjusting your filters to see your favorite users.
-          </p>
-          <button
-            @click="filterStore.clearFilters('favorites')"
-            class="inline-block px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
-          >
-            Clear Filters
-          </button>
-        </div>
+        <EmptyState
+          v-else-if="favoritesFilteredUsers.length === 0"
+          :title="favoritesTexts.noFilteredFavorites.title"
+          :message="favoritesTexts.noFilteredFavorites.message"
+          :buttonText="favoritesTexts.noFilteredFavorites.buttonText"
+          icon="/logo/search_find.svg"
+          :onClick="() => filterStore.clearFilters('favorites')"
+        />
 
         <!-- Favorite user list -->
         <div v-else>
@@ -87,6 +68,8 @@ import UserList from '@/components/UserList.vue'
 import NavBar from '@/components/NavBar.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
 import GenderFilter from '@/components/genderFilter.vue'
+import EmptyState from '@/components/EmptyState.vue'
+import { favoritesTexts } from '@/strings/appTexts'
 
 const favoritesStore = useFavoritesStore()
 const filterStore = useFilterStore()
@@ -106,7 +89,7 @@ const favoritesGenderFilter = computed<string>({
 })
 
 const handleClearAllFavorites = () => {
-  if (confirm('Are you sure you want to clear all favorites?')) {
+  if (confirm(favoritesTexts.clearConfirm)) {
     favoritesStore.clearAllFavorites()
   }
 }

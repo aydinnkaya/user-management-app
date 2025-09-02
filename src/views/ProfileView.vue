@@ -45,12 +45,15 @@
             {{ user.gender ? capitalizeGender(user.gender) : 'Not specified' }}
           </p>
           <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
-            <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"
-              />
-            </svg>
-            <span>{{ user.city || 'Unknown City' }} / {{ user.country || 'Unknown Country' }}</span>
+            <span>{{ user.city }} / {{ user.country }}</span>
+            <img
+              v-if="flagSrc"
+              :src="flagSrc"
+              :alt="`${user.country} flag`"
+              class="w-5 h-3 rounded-sm object-cover flex-shrink-0"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            />
           </div>
         </div>
       </div>
@@ -91,11 +94,13 @@ import { storeToRefs } from 'pinia'
 import NavBar from '@/components/NavBar.vue'
 import { useUserStore } from '@/stores/userStore'
 import type { User } from '@/types/User'
+import { getFlagUrl } from '@/lib/flags'
 
 const userStore = useUserStore()
 const { users } = storeToRefs(userStore)
 
 const user = computed<User | null>(() => users.value[0] ?? null)
+const flagSrc = computed(() => (user.value ? getFlagUrl(user.value.country, 20) : ''))
 
 onMounted(async () => {
   await nextTick()

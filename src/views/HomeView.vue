@@ -61,42 +61,24 @@
           <!-- Main Content -->
           <div v-else>
             <!-- No Users Available -->
-            <div v-if="users.length === 0" class="text-center py-12 sm:py-16">
-              <div class="mb-5 sm:mb-6">
-                <span class="text-5xl sm:text-6xl">👥</span>
-              </div>
-              <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-300 mb-2 sm:mb-3">
-                No users available
-              </h2>
-              <p class="text-gray-500 mb-5 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-2">
-                We couldn't load any users at this time.
-              </p>
-              <button
-                @click="fetchUsers(100)"
-                class="inline-block px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
-              >
-                Reload Users
-              </button>
-            </div>
+            <EmptyState
+              v-if="users.length === 0"
+              :title="homeTexts.noUsersAvailable.title"
+              :message="homeTexts.noUsersAvailable.message"
+              :buttonText="homeTexts.noUsersAvailable.buttonText"
+              icon="/logo/profile.svg"
+              @click="fetchUsers(100)"
+            />
 
             <!-- No Users Match Filters -->
-            <div v-else-if="homeFilteredUsers.length === 0" class="text-center py-12 sm:py-16">
-              <div class="mb-5 sm:mb-6">
-                <span class="text-5xl sm:text-6xl">🔍</span>
-              </div>
-              <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-300 mb-2 sm:mb-3">
-                No users match your filters
-              </h2>
-              <p class="text-gray-500 mb-5 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-2">
-                Try adjusting your filters to see more users.
-              </p>
-              <button
-                @click="clearHomeFilters"
-                class="inline-block px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
-              >
-                Clear Filters
-              </button>
-            </div>
+            <EmptyState
+              v-else-if="homeFilteredUsers.length === 0"
+              :onClear="clearHomeFilters"
+              :title="homeTexts.noUsersMatchFilters.title"
+              :message="homeTexts.noUsersMatchFilters.message"
+              :buttonText="homeTexts.noUsersMatchFilters.buttonText"
+              icon="/logo/search_find.svg"
+            />
 
             <!-- User List -->
             <div v-else>
@@ -117,9 +99,11 @@ import NavBar from '@/components/NavBar.vue'
 import UserList from '@/components/UserList.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
+import EmptyState from '@/components/EmptyState.vue'
 
 import { useUserStore } from '@/stores/userStore'
 import { useFilterStore } from '@/stores/filterStore'
+import { homeTexts } from '@/strings/appTexts'
 
 const userStore = useUserStore()
 const filterStore = useFilterStore()

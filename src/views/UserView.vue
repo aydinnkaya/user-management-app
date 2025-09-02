@@ -2,18 +2,8 @@
   <div class="min-h-screen bg-black text-white">
     <header class="px-4 py-4 flex items-center justify-between max-w-5xl mx-auto">
       <!-- Back Button -->
-      <button
-        @click="router.back()"
-        class="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
+      <button @click="router.back()" class="flex items-center gap-2 text-gray-300 hover:text-white">
+        <img src="/logo/back_button.svg" alt="Back" class="w-5 h-5" />
         {{ prevTitle }}
       </button>
 
@@ -23,38 +13,20 @@
         @click="toggleFavorite(selectedUser)"
         class="bg-white/80 backdrop-blur-md rounded-full p-2 shadow-md hover:scale-105 transition"
       >
-        <svg
+        <img
           v-if="isFavorite(selectedUser.id)"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-          class="w-6 h-6 text-rose-600"
-        >
-          <path
-            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
-               2 6 4 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09
-               4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0
-               3.78-3.4 6.86-8.55 11.54L12 21.35z"
-          />
-        </svg>
-        <svg
-          v-else
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
+          src="/logo/favorite_heart_pink.svg"
+          alt="Favorite"
           class="w-6 h-6 text-gray-700"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4.318 6.318a4.5 4.5 0 000 6.364L12
-               20.364l7.682-7.682a4.5 4.5 0
-               00-6.364-6.364L12 7.636
-               10.682 6.318a4.5 4.5 0 00-6.364 0z"
-          />
-        </svg>
+          aria-hidden="true"
+        />
+        <img
+          v-else
+          src="/logo/favorite_heart.svg"
+          alt="Not Favorite"
+          class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7"
+          aria-hidden="true"
+        />
       </button>
     </header>
 
@@ -98,16 +70,15 @@
             {{ capitalizeGender(selectedUser.gender) }}
           </p>
           <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
-            <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 2C8.134 2 5 5.134 5 9c0
-                   5.25 7 13 7 13s7-7.75
-                   7-13c0-3.866-3.134-7-7-7zm0
-                   9.5A2.5 2.5 0 1 1 12 6a2.5
-                   2.5 0 0 1 0 5.5z"
-              />
-            </svg>
             <span>{{ selectedUser.city }} / {{ selectedUser.country }}</span>
+            <img
+              v-if="flagSrc"
+              :src="flagSrc"
+              :alt="`${selectedUser.country} flag`"
+              class="w-5 h-3 rounded-sm object-cover flex-shrink-0"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            />
           </div>
         </div>
       </div>
@@ -154,12 +125,17 @@ import { useRouter } from 'vue-router'
 import { useFavoritesStore } from '@/stores/favoritesStore'
 import { useSelectedUserStores } from '@/stores/selectedUserStore'
 import type { User } from '@/types/User'
+import { getFlagUrl } from '@/lib/flags'
 
 const router = useRouter()
 const favoritesStore = useFavoritesStore()
 const selectedUserStore = useSelectedUserStores()
 
 const selectedUser = computed(() => selectedUserStore.selectedUser)
+
+const flagSrc = computed(() =>
+  selectedUser.value ? getFlagUrl(selectedUser.value.country, 20) : '',
+)
 
 const prevTitle = history.state?.backTitle || 'Back'
 
