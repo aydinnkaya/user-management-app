@@ -1,6 +1,6 @@
 <template>
-  <div class="space-y-6">
-    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-2 md:gap-3">
+  <div class="flex-1 overflow-y-auto overflow-x-hidden">
+    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 p-2 pb-20 md:pb-8">
       <div v-for="user in users" :key="user.id">
         <UserCard :user="user" />
       </div>

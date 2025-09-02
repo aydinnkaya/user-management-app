@@ -117,6 +117,7 @@ import NavBar from '@/components/NavBar.vue'
 import UserList from '@/components/UserList.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
+
 import { useUserStore } from '@/stores/userStore'
 import { useFilterStore } from '@/stores/filterStore'
 
