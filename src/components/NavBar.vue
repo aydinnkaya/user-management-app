@@ -11,31 +11,39 @@
         <li>
           <RouterLink
             :to="{ name: 'home' }"
-            :class="isActive('home') ? 'text-blue-400' : 'hover:text-blue-400'"
+            :class="[
+              'flex flex-col items-center justify-center gap-1 text-center h-16',
+              isActive('home') ? 'text-blue-400' : 'hover:text-blue-400',
+            ]"
           >
-            <img :src="icon('home', 'home.svg', 'home_touch.svg')" alt="Home" class="h-6 w-6" />
-            <span class="hidden md:block">For You</span>
+            <BaseIcon :name="isActive('home') ? 'home_touch' : 'home'" size="24" class="h-6 w-6" />
+            <span class="hidden md:block leading-none">For You</span>
           </RouterLink>
         </li>
 
         <!-- Favorites -->
-        <li class="relative">
+        <li>
           <RouterLink
             :to="{ name: 'favorites' }"
-            :class="isActive('favorites') ? 'text-blue-400' : 'hover:text-blue-400'"
+            :class="[
+              'flex flex-col items-center justify-center gap-1 text-center h-16',
+              isActive('favorites') ? 'text-blue-400' : 'hover:text-blue-400',
+            ]"
           >
-            <img
-              :src="icon('favorites', 'follow.svg', 'follow_touch.svg')"
-              alt="Favorites"
-              class="h-6 w-6"
-            />
-            <span
-              v-if="favoriteCount > 0"
-              class="absolute top-2 right-4 md:right-[-6px] bg-red-500 text-white text-[10px] leading-none rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center"
-            >
-              {{ favoriteCount > 99 ? '99+' : favoriteCount }}
-            </span>
-            <span class="hidden md:block">Favorites</span>
+            <div class="relative">
+              <BaseIcon
+                :name="isActive('favorites') ? 'follow_touch' : 'follow'"
+                size="24"
+                class="h-6 w-6"
+              />
+              <span
+                v-if="favoriteCount > 0"
+                class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] leading-none rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center"
+              >
+                {{ favoriteCount > 99 ? '99+' : favoriteCount }}
+              </span>
+            </div>
+            <span class="hidden md:block leading-none">Favorites</span>
           </RouterLink>
         </li>
 
@@ -43,14 +51,17 @@
         <li>
           <RouterLink
             :to="{ name: 'explore' }"
-            :class="isActive('explore') ? 'text-blue-400' : 'hover:text-blue-400'"
+            :class="[
+              'flex flex-col items-center justify-center gap-1 text-center h-16',
+              isActive('explore') ? 'text-blue-400' : 'hover:text-blue-400',
+            ]"
           >
-            <img
-              :src="icon('explore', 'leaderboard.svg', 'leaderboard_touch.svg')"
-              alt="Explore"
+            <BaseIcon
+              :name="isActive('explore') ? 'leaderboard_touch' : 'leaderboard'"
+              size="24"
               class="h-6 w-6"
             />
-            <span class="hidden md:block">Explore</span>
+            <span class="hidden md:block leading-none">Explore</span>
           </RouterLink>
         </li>
 
@@ -58,14 +69,17 @@
         <li>
           <RouterLink
             :to="{ name: 'chats' }"
-            :class="isActive('chats') ? 'text-blue-400' : 'hover:text-blue-400'"
+            :class="[
+              'flex flex-col items-center justify-center gap-1 text-center h-16',
+              isActive('chats') ? 'text-blue-400' : 'hover:text-blue-400',
+            ]"
           >
-            <img
-              :src="icon('chats', 'message.svg', 'messages_touch.svg')"
-              alt="Chats"
+            <BaseIcon
+              :name="isActive('chats') ? 'messages_touch' : 'message'"
+              size="24"
               class="h-6 w-6"
             />
-            <span class="hidden md:block">Chats</span>
+            <span class="hidden md:block leading-none">Chats</span>
           </RouterLink>
         </li>
 
@@ -73,14 +87,17 @@
         <li>
           <RouterLink
             :to="{ name: 'profile' }"
-            :class="isActive('profile') ? 'text-blue-400' : 'hover:text-blue-400'"
+            :class="[
+              'flex flex-col items-center justify-center gap-1 text-center h-16',
+              isActive('profile') ? 'text-blue-400' : 'hover:text-blue-400',
+            ]"
           >
-            <img
-              :src="icon('profile', 'profile.svg', 'profile_touch.svg')"
-              alt="Profile"
+            <BaseIcon
+              :name="isActive('profile') ? 'profile_touch' : 'profile'"
+              size="24"
               class="h-6 w-6"
             />
-            <span class="hidden md:block">Profile</span>
+            <span class="hidden md:block leading-none">Profile</span>
           </RouterLink>
         </li>
       </ul>
@@ -92,6 +109,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useFavoritesStore } from '@/stores/favoritesStore'
+import BaseIcon from '@/components/BaseIcon.vue'
 
 const route = useRoute()
 const favoritesStore = useFavoritesStore()
@@ -100,12 +118,14 @@ const favoriteCount = computed(() => favoritesStore.favoriteUsers.length)
 
 const isScrolled = ref(false)
 const onScroll = () => (isScrolled.value = window.scrollY > 8)
-onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
-onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
+
+onMounted(() => {
+  window.addEventListener('scroll', onScroll, { passive: true })
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', onScroll)
+})
 
 const currentName = computed(() => (route.name as string) || '')
 const isActive = (name: string) => currentName.value === name
-
-const icon = (name: string, normal: string, touch: string) =>
-  `/logo/${isActive(name) ? touch : normal}`
 </script>

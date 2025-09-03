@@ -1,17 +1,19 @@
 <template>
-  <div class="relative z-40 min-w-[9.5rem] sm:min-w-[10rem] md:min-w-[10rem]">
+  <div class="relative z-40 min-w-[6.5rem] sm:min-w-[7rem] md:min-w-[8rem] max-w-fit">
     <select
       :value="modelValue"
       @change="handleGenderChange"
-      class="h-9 w-full rounded-full bg-neutral-800 text-neutral-100 border border-neutral-700 pl-2 pr-9 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm"
+      class="h-9 w-full rounded-full bg-neutral-800 text-neutral-100 border border-neutral-700 pl-2 pr-7 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm"
     >
       <option value="">All Genders</option>
       <option v-for="gender in genders" :key="gender" :value="gender">
         {{ gender.charAt(0).toUpperCase() + gender.slice(1) }}
       </option>
     </select>
+
+    <!-- Dropdown Icon -->
     <svg
-      class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-300"
+      class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-neutral-300"
       viewBox="0 0 20 20"
       fill="currentColor"
     >

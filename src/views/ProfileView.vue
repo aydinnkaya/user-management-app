@@ -22,35 +22,25 @@
           </p>
           <p class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
             <!-- Gender Icon -->
-            <svg
+            <BaseIcon
               v-if="user.gender === 'female'"
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-4 h-4 text-pink-400"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2a7 7 0 0 0-1 13.9V17H9v2h2v2h2v-2h2v-2h-2v-1.1A7 7 0 0 0 12 2z" />
-            </svg>
-            <svg
-              v-else-if="user.gender === 'male'"
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-4 h-4 text-blue-400"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 3h-6v2h3.59l-4.13 4.13A6.5 6.5 0 1 0 14.5 12a6.48 6.48 0 0 0-1.27-3.86L17.5 4.91V8.5H19V3z"
-              />
-            </svg>
+              name="gender_female"
+              size="16"
+              class="text-pink-400"
+            />
+            <BaseIcon v-else name="gender_male" size="16" class="text-blue-400" />
             {{ user.gender ? capitalizeGender(user.gender) : 'Not specified' }}
           </p>
           <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
-            <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"
-              />
-            </svg>
             <span>{{ user.city || 'Unknown City' }} / {{ user.country || 'Unknown Country' }}</span>
+            <img
+              v-if="flagSrc"
+              :src="flagSrc"
+              :alt="`${user.country} flag`"
+              class="w-5 h-3 rounded-sm object-cover flex-shrink-0"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            />
           </div>
         </div>
       </div>
@@ -89,13 +79,17 @@
 import { computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import NavBar from '@/components/NavBar.vue'
+import BaseIcon from '@/components/BaseIcon.vue'
 import { useUserStore } from '@/stores/userStore'
 import type { User } from '@/types/User'
+import { getFlagUrl } from '@/lib/flags'
 
 const userStore = useUserStore()
 const { users } = storeToRefs(userStore)
 
 const user = computed<User | null>(() => users.value[0] ?? null)
+
+const flagSrc = computed(() => (user.value ? getFlagUrl(user.value.country, 20) : ''))
 
 onMounted(() => {
   userStore.fetchUsers(100)

@@ -25,7 +25,7 @@
         </template>
         <img
           v-else
-          src="/logo/global_icon.svg"
+          src="@icons/global_icon.svg"
           alt="Global"
           class="w-6 h-6 rounded-full ring-2 ring-neutral-800 object-cover bg-neutral-700 p-1"
           draggable="false"
@@ -181,11 +181,13 @@ const ordered = computed(() => {
   return [...selected.sort(sortByCount), ...unselected.sort(sortByCount)]
 })
 
-const flagOf = (iso2: string) => {
-  const country = props.options.find((c) => c.iso2 === iso2)
-  return country?.flag || `https://flagcdn.com/w20/${iso2}.png`
-}
+const flagMap = computed(() => {
+  const m = new Map<string, string>()
+  for (const c of props.options) m.set(c.iso2, c.flag)
+  return m
+})
 
+const flagOf = (iso2: string) => flagMap.value.get(iso2) || `https://flagcdn.com/w20/${iso2}.png`
 const isSelected = (c: CountryOption) => {
   return props.modelValue.includes(c.iso2)
 }
