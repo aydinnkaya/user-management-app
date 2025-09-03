@@ -9,7 +9,7 @@
         :title="chatsTexts.noChats.title"
         :message="chatsTexts.noChats.message"
         :buttonText="chatsTexts.noChats.buttonText"
-        icon="/logo/messages.svg"
+        :spriteName="'message'"
         route="/"
       />
     </main>

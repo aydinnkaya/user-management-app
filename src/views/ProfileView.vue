@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-black text-white overscroll-none">
+  <div class="min-h-screen bg-black text-white">
     <!-- Navigation bar -->
     <NavBar />
 
     <!-- User Profile Main Section -->
-    <main v-if="user" class="max-w-5xl mx-auto px-4 py-6 pb-24 md:pb-8">
+    <main v-if="user" class="max-w-5xl mx-auto px-4 py-6">
       <!-- Profile Header -->
       <div class="px-6 sm:px-8 py-6 flex flex-row items-center gap-6">
         <img
@@ -22,30 +22,17 @@
           </p>
           <p class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
             <!-- Gender Icon -->
-            <svg
+            <BaseIcon
               v-if="user.gender === 'female'"
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-4 h-4 text-pink-400"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2a7 7 0 0 0-1 13.9V17H9v2h2v2h2v-2h2v-2h-2v-1.1A7 7 0 0 0 12 2z" />
-            </svg>
-            <svg
-              v-else-if="user.gender === 'male'"
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-4 h-4 text-blue-400"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 3h-6v2h3.59l-4.13 4.13A6.5 6.5 0 1 0 14.5 12a6.48 6.48 0 0 0-1.27-3.86L17.5 4.91V8.5H19V3z"
-              />
-            </svg>
+              name="gender_female"
+              size="16"
+              class="text-pink-400"
+            />
+            <BaseIcon v-else name="gender_male" size="16" class="text-blue-400" />
             {{ user.gender ? capitalizeGender(user.gender) : 'Not specified' }}
           </p>
           <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
-            <span>{{ user.city }} / {{ user.country }}</span>
+            <span>{{ user.city || 'Unknown City' }} / {{ user.country || 'Unknown Country' }}</span>
             <img
               v-if="flagSrc"
               :src="flagSrc"
@@ -89,9 +76,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, nextTick } from 'vue'
+import { computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import NavBar from '@/components/NavBar.vue'
+import BaseIcon from '@/components/BaseIcon.vue'
 import { useUserStore } from '@/stores/userStore'
 import type { User } from '@/types/User'
 import { getFlagUrl } from '@/lib/flags'
@@ -100,14 +88,12 @@ const userStore = useUserStore()
 const { users } = storeToRefs(userStore)
 
 const user = computed<User | null>(() => users.value[0] ?? null)
+
 const flagSrc = computed(() => (user.value ? getFlagUrl(user.value.country, 20) : ''))
 
-onMounted(async () => {
-  await nextTick()
-  const scrollContainer = document.getElementById('scroll-container')
-  if (scrollContainer) {
-    scrollContainer.scrollTo({ top: 0, left: 0, behavior: 'auto' })
-  }
+onMounted(() => {
+  userStore.fetchUsers(100)
+  window.scrollTo({ top: 0, behavior: 'instant' })
 })
 
 const capitalizeGender = (g: string) => g.charAt(0).toUpperCase() + g.slice(1)

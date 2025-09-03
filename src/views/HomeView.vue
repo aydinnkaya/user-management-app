@@ -41,13 +41,7 @@
             class="rounded-lg border border-red-400 bg-red-500/10 text-red-200 px-4 py-3 flex items-center justify-between"
           >
             <div class="flex items-center gap-2">
-              <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-                <path
-                  fill-rule="evenodd"
-                  d="M8.257 3.099c.765-1.36 2.72-1.36 3.485 0l6.518 11.595c.75 1.335-.213 3.006-1.743 3.006H3.482c-1.53 0-2.493-1.671-1.743-3.006L8.257 3.1zM11 14a1 1 0 10-2 0 1 1 0 002 0zm-1-2a1 1 0 01-1-1V8a1 1 0 112 0v3a1 1 0 01-1 1z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <BaseIcon name="warning_icon" size="20" class="text-red-500" />
               <span class="text-sm">{{ error }}</span>
             </div>
             <button
@@ -66,18 +60,18 @@
               :title="homeTexts.noUsersAvailable.title"
               :message="homeTexts.noUsersAvailable.message"
               :buttonText="homeTexts.noUsersAvailable.buttonText"
-              icon="/logo/profile.svg"
+              :spriteName="'profile'"
               @click="fetchUsers(100)"
             />
 
             <!-- No Users Match Filters -->
             <EmptyState
               v-else-if="homeFilteredUsers.length === 0"
-              :onClear="clearHomeFilters"
               :title="homeTexts.noUsersMatchFilters.title"
               :message="homeTexts.noUsersMatchFilters.message"
               :buttonText="homeTexts.noUsersMatchFilters.buttonText"
-              icon="/logo/search_find.svg"
+              :spriteName="'search_find'"
+              :onClick="clearHomeFilters"
             />
 
             <!-- User List -->
@@ -100,7 +94,7 @@ import UserList from '@/components/UserList.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
 import EmptyState from '@/components/EmptyState.vue'
-
+import BaseIcon from '@/components/BaseIcon.vue'
 import { useUserStore } from '@/stores/userStore'
 import { useFilterStore } from '@/stores/filterStore'
 import { homeTexts } from '@/strings/appTexts'

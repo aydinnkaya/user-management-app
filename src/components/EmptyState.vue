@@ -1,8 +1,11 @@
 <template>
   <div class="flex flex-col items-center justify-center py-12 sm:py-16 text-center">
     <!-- Icon -->
-    <div class="mb-5 sm:mb-6 w-16 h-16 sm:w-20 sm:h-20 text-blue-400">
-      <img v-if="icon" :src="icon" alt="icon" class="w-full h-full" />
+    <div
+      class="mb-5 sm:mb-6 w-16 h-16 sm:w-20 sm:h-20 text-blue-400 flex items-center justify-center"
+    >
+      <!-- sprite ile -->
+      <BaseIcon v-if="spriteName" :name="spriteName" :size="isSm ? 80 : 64" class="text-blue-400" />
     </div>
 
     <!-- Heading -->
@@ -35,17 +38,30 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
+import BaseIcon from '@/components/BaseIcon.vue'
 
+/**
+ * Props:
+ * - title: Heading text
+ * - message: Description text
+ * - buttonText: Text for the button
+ * - spriteName?: SVG sprite icon name
+ * - iconColor?: Tailwind class for icon color
+ * - iconSize?: Icon size in px (default: responsive sm:80 / base:64)
+ * - route?: Renders a <router-link> if provided
+ * - onClick?: Called when button is clicked if no route is provided
+ */
 interface Props {
   title: string
   message: string
   buttonText: string
-  icon?: string
+  spriteName?: string
   route?: string
   onClick?: () => void
 }
 
-const props = defineProps<Props>()
-const { title, message, buttonText, icon, route, onClick } = props
+defineProps<Props>()
+
+const isSm = computed(() => window.matchMedia('(min-width: 640px)').matches)
 </script>

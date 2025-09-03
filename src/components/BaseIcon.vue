@@ -1,0 +1,28 @@
+<template>
+  <svg
+    :width="pixelSize"
+    :height="pixelSize"
+    :class="['inline-block align-middle', $attrs.class]"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <use :href="`#icon-${name}`" />
+  </svg>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const props = withDefaults(
+  defineProps<{
+    name: string
+    size?: number | string
+    class?: string
+  }>(),
+  {
+    size: 24,
+  },
+)
+
+const pixelSize = computed(() => (typeof props.size === 'number' ? `${props.size}px` : props.size))
+</script>

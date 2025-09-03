@@ -6,6 +6,13 @@
       <div class="w-full max-w-screen-2xl px-3 sm:px-4 md:px-6 py-6 sm:py-8">
         <!-- Filters -->
         <div class="flex items-center justify-end flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
+          <button
+            v-if="favoritesFilteredUsers.length > 0"
+            @click="openClearModal"
+            class="h-7 sm:h-8 md:h-9 px-2 sm:px-3 md:px-4 bg-red-600 hover:bg-red-700 text-white rounded-full transition-colors text-[10px] sm:text-xs md:text-sm font-medium"
+          >
+            {{ favoritesTexts.clearAll }}
+          </button>
           <GenderFilter
             :model-value="favoritesGenderFilter"
             @update:model-value="(val) => (favoritesGenderFilter = val)"
@@ -19,14 +26,6 @@
               class="w-auto"
             />
           </div>
-
-          <button
-            v-if="favoritesFilteredUsers.length > 0"
-            @click="handleClearAllFavorites"
-            class="px-3 sm:px-4 py-1.5 sm:py-2 bg-red-600 hover:bg-red-700 text-white rounded-full transition-colors text-xs sm:text-sm font-medium"
-          >
-            {{ favoritesTexts.clearAll }}
-          </button>
         </div>
 
         <!-- No favorites at all -->
@@ -35,7 +34,7 @@
           :title="favoritesTexts.noFavorites.title"
           :message="favoritesTexts.noFavorites.message"
           :buttonText="favoritesTexts.noFavorites.buttonText"
-          icon="/logo/broken-heart.svg"
+          :spriteName="'broken-heart'"
           route="/"
         />
 
@@ -45,7 +44,7 @@
           :title="favoritesTexts.noFilteredFavorites.title"
           :message="favoritesTexts.noFilteredFavorites.message"
           :buttonText="favoritesTexts.noFilteredFavorites.buttonText"
-          icon="/logo/search_find.svg"
+          :spriteName="'search_find'"
           :onClick="() => filterStore.clearFilters('favorites')"
         />
 
@@ -55,11 +54,21 @@
         </div>
       </div>
     </main>
+    <!-- Confirm modal -->
+    <ConfirmDialog
+      :open="showClearModal"
+      :title="favoritesTexts.clearAll"
+      :message="favoritesTexts.clearConfirm"
+      confirmText="Delete all"
+      cancelText="Cancel"
+      @confirm="confirmClearAll"
+      @close="closeClearModal"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useFavoritesStore } from '@/stores/favoritesStore'
 import { useFilterStore } from '@/stores/filterStore'
@@ -69,6 +78,7 @@ import NavBar from '@/components/NavBar.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 import EmptyState from '@/components/EmptyState.vue'
+import ConfirmDialog from '@/components/ConfirmDialog.vue'
 import { favoritesTexts } from '@/strings/appTexts'
 
 const favoritesStore = useFavoritesStore()
@@ -88,9 +98,18 @@ const favoritesGenderFilter = computed<string>({
   set: (val: string) => filterStore.updateGenderFilter('favorites', val),
 })
 
-const handleClearAllFavorites = () => {
-  if (confirm(favoritesTexts.clearConfirm)) {
-    favoritesStore.clearAllFavorites()
-  }
+// modal state
+const showClearModal = ref(false)
+
+const openClearModal = () => {
+  showClearModal.value = true
+}
+const closeClearModal = () => {
+  showClearModal.value = false
+}
+
+const confirmClearAll = () => {
+  favoritesStore.clearAllFavorites()
+  closeClearModal()
 }
 </script>

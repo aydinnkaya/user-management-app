@@ -9,7 +9,7 @@
         :title="exploreTexts.noUsers.title"
         :message="exploreTexts.noUsers.message"
         :buttonText="exploreTexts.noUsers.buttonText"
-        icon="/logo/leaderboard.svg"
+        :spriteName="'leaderboard'"
         route="/"
       />
     </main>
