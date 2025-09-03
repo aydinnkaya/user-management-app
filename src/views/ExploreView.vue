@@ -6,9 +6,9 @@
     <!-- Main Empty State / Discover Section -->
     <main class="flex-1 flex items-center justify-center px-4 overflow-hidden overscroll-none">
       <EmptyState
-        :title="exploreTexts.noUsers.title"
-        :message="exploreTexts.noUsers.message"
-        :buttonText="exploreTexts.noUsers.buttonText"
+        :title="$t('explore.noUsers.title')"
+        :message="$t('explore.noUsers.message')"
+        :buttonText="$t('explore.noUsers.buttonText')"
         :spriteName="'leaderboard'"
         route="/"
       />
@@ -19,5 +19,4 @@
 <script setup lang="ts">
 import NavBar from '@/components/NavBar.vue'
 import EmptyState from '@/components/EmptyState.vue'
-import { exploreTexts } from '@/strings/appTexts'
 </script>

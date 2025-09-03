@@ -35,8 +35,16 @@
         />
         <div class="text-left flex-1">
           <h1 class="text-xl sm:text-2xl font-bold">{{ selectedUser.name }}</h1>
-          <p class="text-sm sm:text-base text-gray-300">{{ selectedUser.age }} years old</p>
-          <p class="text-xs sm:text-sm text-gray-400 mt-1">{{ selectedUser.email }}</p>
+          <p class="text-sm sm:text-base text-gray-300">
+            {{
+              selectedUser.age
+                ? selectedUser.age + ' ' + $t('profile.yearsOld')
+                : $t('profile.ageNotProvided')
+            }}
+          </p>
+          <p class="text-xs sm:text-sm text-gray-400 mt-1">
+            {{ selectedUser.email || $t('profile.noEmailProvided') }}
+          </p>
           <p class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
             <BaseIcon
               v-if="selectedUser.gender === 'female'"
@@ -45,10 +53,17 @@
               class="text-pink-400"
             />
             <BaseIcon v-else name="gender_male" size="16" class="text-blue-400" />
-            {{ capitalizeGender(selectedUser.gender) }}
+            {{
+              selectedUser.gender
+                ? capitalizeGender(selectedUser.gender)
+                : $t('profile.notSpecified')
+            }}
           </p>
           <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
-            <span>{{ selectedUser.city }} / {{ selectedUser.country }}</span>
+            <span
+              >{{ selectedUser.city || $t('profile.unknownCity') }} /
+              {{ selectedUser.country || $t('profile.unknownCountry') }}</span
+            >
             <img
               v-if="flagSrc"
               :src="flagSrc"
@@ -63,9 +78,21 @@
 
       <!-- Stats Section -->
       <section class="grid grid-cols-4 text-center py-4">
-        <div v-for="(label, idx) in ['Followers', 'Following', 'Received', 'Sent']" :key="idx">
+        <div>
           <p class="font-bold text-lg">0</p>
-          <p class="text-xs text-gray-400">{{ label }}</p>
+          <p class="text-xs text-gray-400">{{ $t('profile.stats.followers') }}</p>
+        </div>
+        <div>
+          <p class="font-bold text-lg">0</p>
+          <p class="text-xs text-gray-400">{{ $t('profile.stats.following') }}</p>
+        </div>
+        <div>
+          <p class="font-bold text-lg">0</p>
+          <p class="text-xs text-gray-400">{{ $t('profile.stats.received') }}</p>
+        </div>
+        <div>
+          <p class="font-bold text-lg">0</p>
+          <p class="text-xs text-gray-400">{{ $t('profile.stats.sent') }}</p>
         </div>
       </section>
 
@@ -74,12 +101,12 @@
         <button
           class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium transition min-w-[120px]"
         >
-          Follow
+          {{ $t('profile.actions.follow') }}
         </button>
         <button
           class="flex-1 border border-gray-500 text-gray-200 py-3 rounded-full font-medium hover:bg-gray-800 transition min-w-[120px]"
         >
-          Message
+          {{ $t('profile.actions.message') }}
         </button>
       </div>
 
@@ -88,7 +115,7 @@
         <div v-for="n in 9" :key="n" class="overflow-hidden">
           <img
             :src="selectedUser.picture"
-            alt="User photo"
+            :alt="$t('profile.userPhoto')"
             class="w-full aspect-square object-cover"
           />
         </div>
@@ -113,7 +140,7 @@ const selectedUserStore = useSelectedUserStores()
 const selectedUser = computed(() => selectedUserStore.selectedUser)
 
 const flagSrc = computed(() =>
-  selectedUser.value ? getFlagUrl(selectedUser.value.country, 20) : '',
+  selectedUser.value ? getFlagUrl(selectedUser.value.country, 20) : getFlagUrl('tr', 20),
 )
 
 const prevTitle = history.state?.backTitle || 'Back'

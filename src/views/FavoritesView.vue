@@ -11,7 +11,7 @@
             @click="openClearModal"
             class="h-7 sm:h-8 md:h-9 px-2 sm:px-3 md:px-4 bg-red-600 hover:bg-red-700 text-white rounded-full transition-colors text-[10px] sm:text-xs md:text-sm font-medium"
           >
-            {{ favoritesTexts.clearAll }}
+            {{ $t('favorites.clearAll') }}
           </button>
           <GenderFilter
             :model-value="favoritesGenderFilter"
@@ -31,9 +31,9 @@
         <!-- No favorites at all -->
         <EmptyState
           v-if="favoriteUsers.length === 0"
-          :title="favoritesTexts.noFavorites.title"
-          :message="favoritesTexts.noFavorites.message"
-          :buttonText="favoritesTexts.noFavorites.buttonText"
+          :title="$t('favorites.noFavorites.title')"
+          :message="$t('favorites.noFavorites.message')"
+          :buttonText="$t('favorites.noFavorites.buttonText')"
           :spriteName="'broken-heart'"
           route="/"
         />
@@ -41,9 +41,9 @@
         <!-- No users match filters -->
         <EmptyState
           v-else-if="favoritesFilteredUsers.length === 0"
-          :title="favoritesTexts.noFilteredFavorites.title"
-          :message="favoritesTexts.noFilteredFavorites.message"
-          :buttonText="favoritesTexts.noFilteredFavorites.buttonText"
+          :title="$t('favorites.noFilteredFavorites.title')"
+          :message="$t('favorites.noFilteredFavorites.message')"
+          :buttonText="$t('favorites.noFilteredFavorites.buttonText')"
           :spriteName="'search_find'"
           :onClick="() => filterStore.clearFilters('favorites')"
         />
@@ -54,13 +54,14 @@
         </div>
       </div>
     </main>
+
     <!-- Confirm modal -->
     <ConfirmDialog
       :open="showClearModal"
-      :title="favoritesTexts.clearAll"
-      :message="favoritesTexts.clearConfirm"
-      confirmText="Delete all"
-      cancelText="Cancel"
+      :title="$t('favorites.clearAll')"
+      :message="$t('favorites.clearConfirm')"
+      :confirmText="$t('common.confirm')"
+      :cancelText="$t('common.cancel')"
       @confirm="confirmClearAll"
       @close="closeClearModal"
     />
@@ -79,7 +80,6 @@ import CountryPickers from '@/components/CountryPickers.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 import EmptyState from '@/components/EmptyState.vue'
 import ConfirmDialog from '@/components/ConfirmDialog.vue'
-import { favoritesTexts } from '@/strings/appTexts'
 
 const favoritesStore = useFavoritesStore()
 const filterStore = useFilterStore()

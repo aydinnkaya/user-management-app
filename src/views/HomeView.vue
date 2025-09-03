@@ -48,7 +48,7 @@
               @click="fetchUsers(100)"
               class="px-3 py-1.5 rounded-md bg-red-600 text-white text-sm hover:bg-red-700 transition-colors"
             >
-              Try Again
+              {{ $t('common.tryAgain') }}
             </button>
           </div>
 
@@ -57,9 +57,9 @@
             <!-- No Users Available -->
             <EmptyState
               v-if="users.length === 0"
-              :title="homeTexts.noUsersAvailable.title"
-              :message="homeTexts.noUsersAvailable.message"
-              :buttonText="homeTexts.noUsersAvailable.buttonText"
+              :title="$t('home.noUsersAvailable.title')"
+              :message="$t('home.noUsersAvailable.message')"
+              :buttonText="$t('home.noUsersAvailable.buttonText')"
               :spriteName="'profile'"
               @click="fetchUsers(100)"
             />
@@ -67,9 +67,9 @@
             <!-- No Users Match Filters -->
             <EmptyState
               v-else-if="homeFilteredUsers.length === 0"
-              :title="homeTexts.noUsersMatchFilters.title"
-              :message="homeTexts.noUsersMatchFilters.message"
-              :buttonText="homeTexts.noUsersMatchFilters.buttonText"
+              :title="$t('home.noUsersMatchFilters.title')"
+              :message="$t('home.noUsersMatchFilters.message')"
+              :buttonText="$t('home.noUsersMatchFilters.buttonText')"
               :spriteName="'search_find'"
               :onClick="clearHomeFilters"
             />
@@ -97,7 +97,6 @@ import EmptyState from '@/components/EmptyState.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 import { useUserStore } from '@/stores/userStore'
 import { useFilterStore } from '@/stores/filterStore'
-import { homeTexts } from '@/strings/appTexts'
 
 const userStore = useUserStore()
 const filterStore = useFilterStore()

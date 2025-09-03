@@ -15,10 +15,10 @@
         <div class="text-left flex-1">
           <h1 class="text-xl sm:text-2xl font-bold">{{ user.name }}</h1>
           <p class="text-sm sm:text-base text-gray-300">
-            {{ user.age ? user.age + ' years old' : 'Age not provided' }}
+            {{ user.age ? user.age + ' ' + $t('profile.yearsOld') : $t('profile.ageNotProvided') }}
           </p>
           <p class="text-xs sm:text-sm text-gray-400 mt-1">
-            {{ user.email || 'No email provided' }}
+            {{ user.email || $t('profile.noEmailProvided') }}
           </p>
           <p class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
             <!-- Gender Icon -->
@@ -29,10 +29,13 @@
               class="text-pink-400"
             />
             <BaseIcon v-else name="gender_male" size="16" class="text-blue-400" />
-            {{ user.gender ? capitalizeGender(user.gender) : 'Not specified' }}
+            {{ user.gender ? capitalizeGender(user.gender) : $t('profile.notSpecified') }}
           </p>
           <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-400 mt-1">
-            <span>{{ user.city || 'Unknown City' }} / {{ user.country || 'Unknown Country' }}</span>
+            <span
+              >{{ user.city || $t('profile.unknownCity') }} /
+              {{ user.country || $t('profile.unknownCountry') }}</span
+            >
             <img
               v-if="flagSrc"
               :src="flagSrc"
@@ -49,26 +52,30 @@
       <section class="grid grid-cols-4 text-center py-4">
         <div>
           <p class="font-bold text-lg">0</p>
-          <p class="text-xs text-gray-400">Followers</p>
+          <p class="text-xs text-gray-400">{{ $t('profile.stats.followers') }}</p>
         </div>
         <div>
           <p class="font-bold text-lg">0</p>
-          <p class="text-xs text-gray-400">Following</p>
+          <p class="text-xs text-gray-400">{{ $t('profile.stats.following') }}</p>
         </div>
         <div>
           <p class="font-bold text-lg">0</p>
-          <p class="text-xs text-gray-400">Received</p>
+          <p class="text-xs text-gray-400">{{ $t('profile.stats.received') }}</p>
         </div>
         <div>
           <p class="font-bold text-lg">0</p>
-          <p class="text-xs text-gray-400">Sent</p>
+          <p class="text-xs text-gray-400">{{ $t('profile.stats.sent') }}</p>
         </div>
       </section>
 
       <!-- User Photos Grid -->
       <div class="grid grid-cols-3 gap-1 mt-6">
         <div v-for="n in 9" :key="n" class="overflow-hidden">
-          <img :src="user.picture" alt="User photo" class="w-full aspect-square object-cover" />
+          <img
+            :src="user.picture"
+            :alt="$t('profile.userPhoto')"
+            class="w-full aspect-square object-cover"
+          />
         </div>
       </div>
     </main>

@@ -1,0 +1,91 @@
+{
+  "common": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "tryAgain": "Try Again"
+  },
+  "navigation": {
+    "home": "For You",
+    "favorites": "Favorites",
+    "explore": "Explore",
+    "chats": "Chats",
+    "profile": "Profile"
+  },
+  "filters": {
+    "allGenders": "All Genders",
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    }
+  },
+  "dialogs": {
+    "default": {
+      "title": "Confirm Action",
+      "message": "Are you sure you want to continue?",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
+  },
+  "home": {
+    "noUsersAvailable": {
+      "title": "No Users Available",
+      "message": "There are currently no users to display. Please try again later.",
+      "buttonText": "Reload Users"
+    },
+    "noUsersMatchFilters": {
+      "title": "No Results Found",
+      "message": "No users match your current filter criteria. Try adjusting your filters.",
+      "buttonText": "Clear Filters"
+    }
+  },
+  "favorites": {
+    "clearAll": "Clear All Favorites",
+    "clearConfirm": "Are you sure you want to remove all favorites? This action cannot be undone.",
+    "noFavorites": {
+      "title": "No Favorites Yet",
+      "message": "You haven't added anyone to your favorites. Start exploring and add users you like!",
+      "buttonText": "Browse Users"
+    },
+    "noFilteredFavorites": {
+      "title": "No Results Found",
+      "message": "No favorites match your current filters. Try adjusting your search criteria.",
+      "buttonText": "Clear All Filters"
+    }
+  },
+  "profile": {
+    "yearsOld": "years old",
+    "ageNotProvided": "Age not provided",
+    "noEmailProvided": "No email provided",
+    "notSpecified": "Not specified",
+    "unknownCity": "Unknown City",
+    "unknownCountry": "Unknown Country",
+    "userPhoto": "User photo",
+    "stats": {
+      "followers": "Followers",
+      "following": "Following",
+      "received": "Received",
+      "sent": "Sent"
+    },
+    "actions": {
+      "follow": "Follow",
+      "message": "Message"
+    }
+  },
+  "explore": {
+    "noUsers": {
+      "title": "Explore Coming Soon",
+      "message": "The explore feature is currently under development. Check back soon for exciting new content!",
+      "buttonText": "Go to Home"
+    }
+  },
+  "chats": {
+    "noChats": {
+      "title": "No Messages Yet",
+      "message": "Start a conversation by messaging someone from your favorites or home feed.",
+      "buttonText": "Browse Users"
+    }
+  }
+}

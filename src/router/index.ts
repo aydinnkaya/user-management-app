@@ -39,7 +39,7 @@ const router = createRouter({
 })
 
 router.afterEach(async (to) => {
-  if (to.name === 'profile' || to.name === 'user') {
+  if (to.name === 'profile' || to.name === 'user' || to.name === 'favorites') {
     await nextTick()
     const scrollContainer = document.getElementById('scroll-container')
     if (scrollContainer) {

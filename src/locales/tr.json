@@ -1,0 +1,91 @@
+{
+  "common": {
+    "confirm": "Onayla",
+    "cancel": "İptal",
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
+    "tryAgain": "Tekrar Dene"
+  },
+  "navigation": {
+    "home": "Ana Sayfa",
+    "favorites": "Favoriler",
+    "explore": "Keşfet",
+    "chats": "Mesajlar",
+    "profile": "Profil"
+  },
+  "filters": {
+    "allGenders": "Tüm Cinsiyetler",
+    "gender": {
+      "male": "Erkek",
+      "female": "Kadın",
+      "other": "Diğer"
+    }
+  },
+  "dialogs": {
+    "default": {
+      "title": "İşlemi Onayla",
+      "message": "Devam etmek istediğinizden emin misiniz?",
+      "confirm": "Onayla",
+      "cancel": "İptal"
+    }
+  },
+  "home": {
+    "noUsersAvailable": {
+      "title": "Kullanıcı Bulunamadı",
+      "message": "Şu anda gösterilecek kullanıcı bulunmuyor. Lütfen daha sonra tekrar deneyin.",
+      "buttonText": "Kullanıcıları Yenile"
+    },
+    "noUsersMatchFilters": {
+      "title": "Sonuç Bulunamadı",
+      "message": "Mevcut filtre kriterlerinizle eşleşen kullanıcı bulunamadı. Filtrelerinizi ayarlamayı deneyin.",
+      "buttonText": "Filtreleri Temizle"
+    }
+  },
+  "favorites": {
+    "clearAll": "Tüm Favorileri Temizle",
+    "clearConfirm": "Tüm favorileri kaldırmak istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+    "noFavorites": {
+      "title": "Henüz Favori Yok",
+      "message": "Henüz hiç kimseyi favorilerinize eklemediniz. Keşfetmeye başlayın ve beğendiğiniz kullanıcıları ekleyin!",
+      "buttonText": "Kullanıcıları Gözat"
+    },
+    "noFilteredFavorites": {
+      "title": "Sonuç Bulunamadı",
+      "message": "Mevcut filtrelerinizle eşleşen favori bulunamadı. Arama kriterlerinizi ayarlamayı deneyin.",
+      "buttonText": "Tüm Filtreleri Temizle"
+    }
+  },
+  "profile": {
+    "yearsOld": "yaşında",
+    "ageNotProvided": "Yaş bilgisi yok",
+    "noEmailProvided": "E-posta bilgisi yok",
+    "notSpecified": "Belirtilmemiş",
+    "unknownCity": "Bilinmeyen Şehir",
+    "unknownCountry": "Bilinmeyen Ülke",
+    "userPhoto": "Kullanıcı fotoğrafı",
+    "stats": {
+      "followers": "Takipçi",
+      "following": "Takip Edilen",
+      "received": "Alınan",
+      "sent": "Gönderilen"
+    },
+    "actions": {
+      "follow": "Takip Et",
+      "message": "Mesaj Gönder"
+    }
+  },
+  "explore": {
+    "noUsers": {
+      "title": "Keşfet Yakında Geliyor",
+      "message": "Keşfet özelliği şu anda geliştirilme aşamasında. Heyecan verici yeni içerik için yakında tekrar kontrol edin!",
+      "buttonText": "Ana Sayfaya Git"
+    }
+  },
+  "chats": {
+    "noChats": {
+      "title": "Henüz Mesaj Yok",
+      "message": "Favorilerinizden veya ana sayfadan birisiyle mesajlaşarak konuşma başlatın.",
+      "buttonText": "Kullanıcıları Gözat"
+    }
+  }
+}

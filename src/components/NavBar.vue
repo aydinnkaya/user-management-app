@@ -17,7 +17,7 @@
             ]"
           >
             <BaseIcon :name="isActive('home') ? 'home_touch' : 'home'" size="24" class="h-6 w-6" />
-            <span class="hidden md:block leading-none">For You</span>
+            <span class="hidden md:block leading-none">{{ $t('navigation.home') }}</span>
           </RouterLink>
         </li>
 
@@ -43,7 +43,7 @@
                 {{ favoriteCount > 99 ? '99+' : favoriteCount }}
               </span>
             </div>
-            <span class="hidden md:block leading-none">Favorites</span>
+            <span class="hidden md:block leading-none">{{ $t('navigation.favorites') }}</span>
           </RouterLink>
         </li>
 
@@ -61,7 +61,7 @@
               size="24"
               class="h-6 w-6"
             />
-            <span class="hidden md:block leading-none">Explore</span>
+            <span class="hidden md:block leading-none">{{ $t('navigation.explore') }}</span>
           </RouterLink>
         </li>
 
@@ -79,7 +79,7 @@
               size="24"
               class="h-6 w-6"
             />
-            <span class="hidden md:block leading-none">Chats</span>
+            <span class="hidden md:block leading-none">{{ $t('navigation.chats') }}</span>
           </RouterLink>
         </li>
 
@@ -97,7 +97,7 @@
               size="24"
               class="h-6 w-6"
             />
-            <span class="hidden md:block leading-none">Profile</span>
+            <span class="hidden md:block leading-none">{{ $t('navigation.profile') }}</span>
           </RouterLink>
         </li>
       </ul>

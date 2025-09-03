@@ -15,14 +15,23 @@
         <div
           class="relative w-full max-w-xs sm:max-w-sm md:max-w-md rounded-2xl bg-neutral-900 text-white ring-1 ring-white/10 shadow-xl p-4 sm:p-5"
         >
+          <!-- Close Icon-->
+          <BaseIcon
+            name="cancel_close"
+            size="24"
+            class="block absolute top-3 right-3 text-neutral-400 hover:text-white cursor-pointer"
+            aria-label="Close"
+            @click="onClose"
+          />
+
           <!-- Title -->
           <h3 class="text-sm sm:text-base font-semibold mb-2">
-            {{ title }}
+            {{ title || $t('dialogs.default.title') }}
           </h3>
 
           <!-- Message -->
           <p class="text-xs sm:text-sm text-neutral-300 mb-4 sm:mb-5">
-            {{ message }}
+            {{ message || $t('dialogs.default.message') }}
           </p>
 
           <!-- Actions -->
@@ -32,7 +41,7 @@
               class="px-3 py-1.5 rounded-full text-xs sm:text-sm bg-neutral-700 hover:bg-neutral-600"
               @click="onClose"
             >
-              {{ cancelText }}
+              {{ cancelText || $t('dialogs.default.cancel') }}
             </button>
             <button
               type="button"
@@ -40,19 +49,9 @@
               @click="onConfirm"
               autofocus
             >
-              {{ confirmText }}
+              {{ confirmText || $t('dialogs.default.confirm') }}
             </button>
           </div>
-
-          <!-- Close (X) small -->
-          <button
-            type="button"
-            class="absolute top-2 right-2 text-neutral-400 hover:text-white"
-            aria-label="Close"
-            @click="onClose"
-          >
-            ×
-          </button>
         </div>
       </div>
     </transition>
@@ -60,6 +59,8 @@
 </template>
 
 <script setup lang="ts">
+import BaseIcon from './BaseIcon.vue'
+
 interface Props {
   open: boolean
   title?: string
@@ -68,12 +69,7 @@ interface Props {
   cancelText?: string
 }
 
-withDefaults(defineProps<Props>(), {
-  title: 'Are you sure?',
-  message: 'This action cannot be undone.',
-  confirmText: 'Confirm',
-  cancelText: 'Cancel',
-})
+defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'confirm'): void

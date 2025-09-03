@@ -2,7 +2,8 @@
   <svg
     :width="pixelSize"
     :height="pixelSize"
-    :class="['inline-block align-middle', $attrs.class]"
+    v-bind="$attrs"
+    :class="$attrs.class"
     aria-hidden="true"
     focusable="false"
   >
@@ -17,12 +18,11 @@ const props = withDefaults(
   defineProps<{
     name: string
     size?: number | string
-    class?: string
   }>(),
-  {
-    size: 24,
-  },
+  { size: 24 },
 )
 
-const pixelSize = computed(() => (typeof props.size === 'number' ? `${props.size}px` : props.size))
+const pixelSize = computed(() => (typeof props.size === 'number' ? `${props.size}px` : props.size)) // 32 - 2rem
 </script>
+
+//<!-- :class="['inline-block align-middle', $attrs.class]" -->
