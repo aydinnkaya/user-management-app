@@ -28,7 +28,7 @@
 - ⭐ **Favorites system** persisted in `localStorage`  
 - 📱 **Responsive UI** (mobile nav bar & desktop header)  
 - ⚡ **Lazy-loaded routes/views** for performance  
-- 🎨 **Heroicons integration** for accessible icons  
+- 🧩 **SVG Sprite + BaseIcon: centralized, fast, color-inheriting icons
 - 🔒 **Type-safe state** with Pinia + TypeScript  
 - 🚀 **Vite + Vue Devtools** for fast developer experience  
 - ✅ **Prettier + ESLint** for consistent code style  
@@ -44,7 +44,7 @@
 | **State** | Pinia 3.x |
 | **Router** | Vue Router 4.5.x |
 | **Styling** | Tailwind CSS 4.x (+ plugins: forms, typography, line-clamp, aspect-ratio) |
-| **Icons** | @heroicons/vue |
+| **Icons**  | vite-plugin-svg-icons + custom SVG sprite + BaseIcon 
 | **Tooling** | ESLint 9, Prettier 3, Vue Devtools |
 | **Build** | PostCSS / Autoprefixer |
 
@@ -53,30 +53,42 @@
 ## 📁 Project Structure
 
 ```plaintext
-user-management-app-3/
+user-management-app/
 ├─ public/
 │  └─ spl-logo.png
 ├─ src/
 │  ├─ assets/
-│  │  ├─ nav-logo/
-│  │  ├─ base.css
-│  │  └─ main.css
+│  │  └─ icons/                 # raw SVGs for sprite (e.g. dropdown_arrow.svg, favorite_heart.svg)
 │  ├─ components/
-│  │  ├─ CountryPicker.vue
-│  │  ├─ GenderFilter.vue
+│  │  ├─ BaseIcon.vue           # <BaseIcon name="..." size="..." class="..." />
+│  │  ├─ ConfirmDialog.vue      # reusable modal (teleport + transition)
+│  │  ├─ CountryPickers.vue     # multi-select country control with flags & counts
+│  │  ├─ EmptyState.vue
+│  │  ├─ FavoriteButton.vue
+│  │  ├─ genderFilter.vue
 │  │  ├─ NavBar.vue
 │  │  ├─ UserCard.vue
 │  │  └─ UserList.vue
 │  ├─ composables/
 │  │  └─ useUsers.ts
 │  ├─ lib/
-│  │  └─ flags.ts
+│  │  ├─ countries.ts           # country list with iso2 + name + flag
+│  │  ├─ flag.ts                # helpers for flags
+│  │  └─ flags.ts               # (compat helpers)
 │  ├─ router/
 │  │  └─ index.ts
 │  ├─ stores/
-│  │  └─ useUserStore.ts
+│  │  ├─ favoritesStore.ts
+│  │  ├─ filterStore.ts
+│  │  ├─ selectedUserStore.ts
+│  │  └─ userStore.ts
+│  ├─ strings/
+│  │  └─ appTexts.ts
 │  ├─ types/
 │  │  └─ User.ts
+│  ├─ utils/
+│  │  ├─ globalSetup.ts
+│  │  └─ storage.ts
 │  ├─ views/
 │  │  ├─ ChatsView.vue
 │  │  ├─ ExploreView.vue
@@ -85,14 +97,11 @@ user-management-app-3/
 │  │  ├─ ProfileView.vue
 │  │  └─ UserView.vue
 │  ├─ App.vue
-│  ├─ main.ts
-│  └─ vite-env.d.ts
+│  └─ main.ts
 ├─ index.html
 ├─ package.json
-├─ package-lock.json
-├─ .eslintrc.*
-├─ .prettierrc.json
-└─ tsconfig.json
+├─ tsconfig.json
+└─ vite.config.ts
 ```
 
 ---
