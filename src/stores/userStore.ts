@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { User } from '@/types/User'
+import type { User } from '@/models/User'
 import { useUsers } from '@/composables/useUsers'
 
 export const useUserStore = defineStore('user', () => {
@@ -11,15 +11,18 @@ export const useUserStore = defineStore('user', () => {
   const { fetchUsers: apiFetchUsers } = useUsers()
 
   const fetchUsers = async (count: number) => {
-    if (users.value.length > 0) return
+    if (users.value.length > 0) return users.value
 
     loading.value = true
     error.value = null
 
     try {
-      users.value = await apiFetchUsers(count)
+      const data = await apiFetchUsers(count)
+      users.value = data
+      return users.value
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to fetch users'
+      return []
     } finally {
       loading.value = false
     }

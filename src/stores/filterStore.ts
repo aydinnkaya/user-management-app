@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { useUserStore } from './userStore'
 import { useFavoritesStore } from './favoritesStore'
 import { COUNTRY_LIST } from '@/lib/countries'
-import type { User, PageFilters, FilterState } from '@/types/User'
+import type { User, PageFilters, FilterState, Gender } from '@/models/User'
 
 const createDefaultFilters = (): FilterState => ({
   countryFilter: [],
@@ -26,15 +26,12 @@ export const useFilterStore = defineStore('filterUsers', () => {
     const counts: Record<string, number> = {}
     COUNTRY_LIST.forEach((country) => (counts[country.iso2] = 0))
 
-    if (!users?.length) {
-      return counts
-    }
+    if (!users?.length) return counts
 
     // TODO: Optimize with Map lookup for large datasets (O(n*m) -> O(n))
     users.forEach((user: User) => {
       // TODO: Optimize country lookup when user count > 1000
       const country = COUNTRY_LIST.find((c) => c.name.toLowerCase() === user.country.toLowerCase())
-
       if (country && counts[country.iso2] !== undefined) {
         counts[country.iso2]++
       }
@@ -44,21 +41,15 @@ export const useFilterStore = defineStore('filterUsers', () => {
   }
 
   const getCountryCountsForPage = (page: keyof PageFilters): Record<string, number> => {
-    return page === 'home'
-      ? getCountryCounts(allUsers.value || [])
-      : getCountryCounts(favoriteUsers.value || [])
+    const users =
+      page === 'home' ? homeFilteredUsers.value || [] : favoritesFilteredUsers.value || []
+    return getCountryCounts(users)
   }
-
   const getFilteredUsers = (users: User[], filterState: FilterState): User[] => {
-    if (!users?.length) {
-      return []
-    }
+    if (!users?.length) return []
 
     const { countryFilter, genderFilter } = filterState
-
-    if (!countryFilter?.length && !genderFilter) {
-      return users
-    }
+    if (!countryFilter?.length && !genderFilter) return users
 
     return users.filter((user: User) => {
       const country = COUNTRY_LIST.find((c) => c.name.toLowerCase() === user.country.toLowerCase())
@@ -66,7 +57,8 @@ export const useFilterStore = defineStore('filterUsers', () => {
       const matchesCountry =
         !countryFilter?.length || (country && countryFilter.includes(country.iso2))
 
-      const matchesGender = !genderFilter || user.gender === genderFilter
+      // genderFilter: '' | 'male' | 'female'
+      const matchesGender = genderFilter === '' || user.gender === genderFilter
 
       return matchesCountry && matchesGender
     })
@@ -81,11 +73,11 @@ export const useFilterStore = defineStore('filterUsers', () => {
   )
 
   const updateCountryFilter = (page: keyof PageFilters, countries: string[]): void => {
-    //* Use spread to create a new array reference */
+    // Use spread to create a new array reference
     pageFilters.value[page].countryFilter = [...countries]
   }
 
-  const updateGenderFilter = (page: keyof PageFilters, gender: string): void => {
+  const updateGenderFilter = (page: keyof PageFilters, gender: Gender | ''): void => {
     pageFilters.value[page].genderFilter = gender
   }
 
@@ -99,7 +91,7 @@ export const useFilterStore = defineStore('filterUsers', () => {
 
   const hasActiveFilters = (page: keyof PageFilters): boolean => {
     const filters = pageFilters.value[page]
-    return filters.countryFilter?.length > 0 || !!filters.genderFilter
+    return (filters.countryFilter?.length ?? 0) > 0 || filters.genderFilter !== ''
   }
 
   return {

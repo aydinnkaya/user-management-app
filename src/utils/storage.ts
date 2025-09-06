@@ -1,9 +1,7 @@
 /**
- *
  * @description Utility functions for safe interaction with localStorage.
  * Provides generic methods to store and retrieve data safely,
  * handling errors and JSON serialization.
- *
  */
 
 /**

@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { User } from '@/types/User'
+import type { User } from '@/models/User'
 import { useFavoritesStore } from '@/stores/favoritesStore'
 import BaseIcon from '@/components/BaseIcon.vue'
 

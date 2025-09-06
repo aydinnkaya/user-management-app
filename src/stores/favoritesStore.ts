@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
-import type { User } from '@/types/User'
+import type { User } from '@/models/User'
 import { safeStorageSet, safeStorageGet } from '@/utils/storage'
 import { debounce } from 'lodash'
 

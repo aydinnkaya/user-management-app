@@ -13,10 +13,13 @@
           >
             {{ $t('favorites.clearAll') }}
           </button>
+
+          <!-- Gender: Gender | '' -->
           <GenderFilter
             :model-value="favoritesGenderFilter"
             @update:model-value="(val) => (favoritesGenderFilter = val)"
           />
+
           <div class="w-auto">
             <CountryPickers
               :model-value="favoritesCountryFilter"
@@ -28,7 +31,7 @@
           </div>
         </div>
 
-        <!-- No favorites at all -->
+        <!-- Empty states & list -->
         <EmptyState
           v-if="favoriteUsers.length === 0"
           :title="$t('favorites.noFavorites.title')"
@@ -38,7 +41,6 @@
           route="/"
         />
 
-        <!-- No users match filters -->
         <EmptyState
           v-else-if="favoritesFilteredUsers.length === 0"
           :title="$t('favorites.noFilteredFavorites.title')"
@@ -48,7 +50,6 @@
           :onClick="() => filterStore.clearFilters('favorites')"
         />
 
-        <!-- Favorite user list -->
         <div v-else>
           <UserList :users="favoritesFilteredUsers" />
         </div>
@@ -80,12 +81,14 @@ import CountryPickers from '@/components/CountryPickers.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 import EmptyState from '@/components/EmptyState.vue'
 import ConfirmDialog from '@/components/ConfirmDialog.vue'
+import type { Gender } from '@/models/User'
 
 const favoritesStore = useFavoritesStore()
 const filterStore = useFilterStore()
 
 const { favoriteUsers } = storeToRefs(favoritesStore)
 const { favoritesFilteredUsers } = storeToRefs(filterStore)
+
 const currentCounts = computed(() => filterStore.getCountryCountsForPage('favorites'))
 
 const favoritesCountryFilter = computed<string[]>({
@@ -93,20 +96,15 @@ const favoritesCountryFilter = computed<string[]>({
   set: (val: string[]) => filterStore.updateCountryFilter('favorites', val),
 })
 
-const favoritesGenderFilter = computed<string>({
+const favoritesGenderFilter = computed<Gender | ''>({
   get: () => filterStore.pageFilters.favorites.genderFilter,
-  set: (val: string) => filterStore.updateGenderFilter('favorites', val),
+  set: (val: Gender | '') => filterStore.updateGenderFilter('favorites', val),
 })
 
 // modal state
 const showClearModal = ref(false)
-
-const openClearModal = () => {
-  showClearModal.value = true
-}
-const closeClearModal = () => {
-  showClearModal.value = false
-}
+const openClearModal = () => (showClearModal.value = true)
+const closeClearModal = () => (showClearModal.value = false)
 
 const confirmClearAll = () => {
   favoritesStore.clearAllFavorites()

@@ -87,5 +87,11 @@
       "message": "Start a conversation by messaging someone from your favorites or home feed.",
       "buttonText": "Browse Users"
     }
+  },
+
+  "validation": {
+    "invalidEmail": "Invalid email address",
+    "invalidUrl": "Invalid URL format",
+    "invalidUuid": "Invalid UUID"
   }
 }

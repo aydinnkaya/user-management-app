@@ -129,7 +129,7 @@ import { onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useFavoritesStore } from '@/stores/favoritesStore'
 import { useSelectedUserStores } from '@/stores/selectedUserStore'
-import type { User } from '@/types/User'
+import type { User } from '@/models/User'
 import { getFlagUrl } from '@/lib/flags'
 import BaseIcon from '@/components/BaseIcon.vue'
 

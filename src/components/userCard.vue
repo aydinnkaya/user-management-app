@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import type { User } from '@/types/User'
+import type { User } from '@/models/User'
 import { useSelectedUserStores } from '@/stores/selectedUserStore'
 import { useFavoritesStore } from '@/stores/favoritesStore'
 import { getFlagUrl } from '@/lib/flags'

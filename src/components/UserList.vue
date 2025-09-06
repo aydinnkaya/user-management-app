@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import UserCard from '@/components/UserCard.vue'
-import type { User } from '@/types/User'
+import type { User } from '@/models/User'
 
 interface Props {
   users: User[]

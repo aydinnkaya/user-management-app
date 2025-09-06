@@ -36,12 +36,12 @@
                 size="24"
                 class="h-6 w-6"
               />
-              <span
+              <!-- <span
                 v-if="favoriteCount > 0"
                 class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] leading-none rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center"
               >
                 {{ favoriteCount > 99 ? '99+' : favoriteCount }}
-              </span>
+              </span> -->
             </div>
             <span class="hidden md:block leading-none">{{ $t('navigation.favorites') }}</span>
           </RouterLink>
@@ -108,13 +108,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
-import { useFavoritesStore } from '@/stores/favoritesStore'
+// import { useFavoritesStore } from '@/stores/favoritesStore'
 import BaseIcon from '@/components/BaseIcon.vue'
 
 const route = useRoute()
-const favoritesStore = useFavoritesStore()
+// const favoritesStore = useFavoritesStore()
 
-const favoriteCount = computed(() => favoritesStore.favoriteUsers.length)
+// const favoriteCount = computed(() => favoritesStore.favoriteUsers.length)
 
 const isScrolled = ref(false)
 const onScroll = () => (isScrolled.value = window.scrollY > 8)

@@ -97,6 +97,7 @@ import EmptyState from '@/components/EmptyState.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 import { useUserStore } from '@/stores/userStore'
 import { useFilterStore } from '@/stores/filterStore'
+import type { Gender } from '@/models/User'
 
 const userStore = useUserStore()
 const filterStore = useFilterStore()
@@ -108,9 +109,9 @@ const homeCountryFilter = computed<string[]>({
   set: (val: string[]) => filterStore.updateCountryFilter('home', val),
 })
 
-const homeGenderFilter = computed<string>({
+const homeGenderFilter = computed<Gender | ''>({
   get: () => filterStore.pageFilters.home.genderFilter,
-  set: (val: string) => filterStore.updateGenderFilter('home', val),
+  set: (val: Gender | '') => filterStore.updateGenderFilter('home', val),
 })
 
 const homeFilteredUsers = computed(() => {
@@ -123,7 +124,6 @@ const homeFilteredUsers = computed(() => {
 const currentCounts = computed(() => filterStore.getCountryCountsForPage('home'))
 
 const clearHomeFilters = () => filterStore.clearFilters('home')
-
 onMounted(async () => {
   await fetchUsers(100)
 })

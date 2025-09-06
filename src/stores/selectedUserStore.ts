@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { User } from '@/types/User'
+import type { User } from '@/models/User'
 
 export const useSelectedUserStores = defineStore('selectedUser', () => {
   const selectedUser = ref<User | null>(null)

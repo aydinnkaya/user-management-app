@@ -88,7 +88,7 @@ import { storeToRefs } from 'pinia'
 import NavBar from '@/components/NavBar.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 import { useUserStore } from '@/stores/userStore'
-import type { User } from '@/types/User'
+import type { User } from '@/models/User'
 import { getFlagUrl } from '@/lib/flags'
 
 const userStore = useUserStore()

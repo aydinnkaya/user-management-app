@@ -87,5 +87,10 @@
       "message": "Favorilerinizden veya ana sayfadan birisiyle mesajlaşarak konuşma başlatın.",
       "buttonText": "Kullanıcıları Gözat"
     }
+  },
+  "validation": {
+    "invalidEmail": "Geçersiz email adresi",
+    "invalidUrl": "Geçersiz URL formatı",
+    "invalidUuid": "Geçersiz UUID"
   }
 }
