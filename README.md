@@ -58,7 +58,7 @@ user-management-app/
 │  └─ spl-logo.png
 ├─ src/
 │  ├─ assets/
-│  │  └─ icons/                 # raw SVGs for sprite (e.g. dropdown_arrow.svg, favorite_heart.svg)
+│  │  └─ icons/                 # raw SVGs for sprite (dropdown_arrow.svg, favorite_heart.svg, ...)
 │  ├─ components/
 │  │  ├─ BaseIcon.vue           # <BaseIcon name="..." size="..." class="..." />
 │  │  ├─ ConfirmDialog.vue      # reusable modal (teleport + transition)
@@ -70,11 +70,19 @@ user-management-app/
 │  │  ├─ UserCard.vue
 │  │  └─ UserList.vue
 │  ├─ composables/
+│  │  ├─ useInfiniteScroll.ts
 │  │  └─ useUsers.ts
+│  ├─ i18n/
+│  │  └─ index.ts
 │  ├─ lib/
 │  │  ├─ countries.ts           # country list with iso2 + name + flag
-│  │  ├─ flag.ts                # helpers for flags
-│  │  └─ flags.ts               # (compat helpers)
+│  │  ├─ flags.ts               # helpers for flags
+│  │  └─ genders.ts
+│  ├─ locales/
+│  │  ├─ en.json
+│  │  └─ tr.json
+│  ├─ models/
+│  │  └─ User.ts
 │  ├─ router/
 │  │  └─ index.ts
 │  ├─ stores/
@@ -82,10 +90,7 @@ user-management-app/
 │  │  ├─ filterStore.ts
 │  │  ├─ selectedUserStore.ts
 │  │  └─ userStore.ts
-│  ├─ strings/
-│  │  └─ appTexts.ts
-│  ├─ types/
-│  │  └─ User.ts
+│  ├─ types
 │  ├─ utils/
 │  │  ├─ globalSetup.ts
 │  │  └─ storage.ts
@@ -100,6 +105,7 @@ user-management-app/
 │  └─ main.ts
 ├─ index.html
 ├─ package.json
+├─ tailwind.config.ts
 ├─ tsconfig.json
 └─ vite.config.ts
 ```
