@@ -14,7 +14,6 @@
             {{ $t('favorites.clearAll') }}
           </button>
 
-          <!-- Gender: Gender | '' -->
           <GenderFilter
             :model-value="favoritesGenderFilter"
             @update:model-value="(val) => (favoritesGenderFilter = val)"
@@ -51,7 +50,13 @@
         />
 
         <div v-else>
-          <UserList :users="favoritesFilteredUsers" />
+          <div class="flex-1 overflow-y-auto overflow-x-hidden">
+            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 p-2 pb-20 md:pb-8">
+              <div v-for="user in favoritesFilteredUsers" :key="user.id">
+                <UserCard :user="user" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -75,7 +80,7 @@ import { storeToRefs } from 'pinia'
 import { useFavoritesStore } from '@/stores/favoritesStore'
 import { useFilterStore } from '@/stores/filterStore'
 import { COUNTRY_LIST } from '@/lib/countries'
-import UserList from '@/components/UserList.vue'
+import UserCard from '@/components/UserCard.vue'
 import NavBar from '@/components/NavBar.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
 import GenderFilter from '@/components/genderFilter.vue'

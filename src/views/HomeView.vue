@@ -26,8 +26,11 @@
 
         <!-- User List / Loading / Error States -->
         <div class="max-w-screen-xl mx-auto px-4 pt-6">
-          <!-- Loading Indicator -->
-          <div v-if="loading" class="flex justify-center items-center py-10">
+          <!-- Loading Indicator (Initial) -->
+          <div
+            v-if="pagination.isInitialLoad && users.length === 0"
+            class="flex justify-center items-center py-10"
+          >
             <div class="relative">
               <div
                 class="animate-spin rounded-full h-10 w-10 border-2 border-neutral-600 border-t-blue-500"
@@ -45,7 +48,7 @@
               <span class="text-sm">{{ error }}</span>
             </div>
             <button
-              @click="fetchUsers(100)"
+              @click="handleRetry"
               class="px-3 py-1.5 rounded-md bg-red-600 text-white text-sm hover:bg-red-700 transition-colors"
             >
               {{ $t('common.tryAgain') }}
@@ -61,7 +64,7 @@
               :message="$t('home.noUsersAvailable.message')"
               :buttonText="$t('home.noUsersAvailable.buttonText')"
               :spriteName="'profile'"
-              @click="fetchUsers(100)"
+              @click="handleInitialLoad"
             />
 
             <!-- No Users Match Filters -->
@@ -76,7 +79,7 @@
 
             <!-- User List -->
             <div v-else>
-              <UserList :users="homeFilteredUsers" />
+              <UserList :users="homeFilteredUsers" :pagination="pagination" />
             </div>
           </div>
         </div>
@@ -86,7 +89,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, provide } from 'vue'
 import { storeToRefs } from 'pinia'
 import { COUNTRY_LIST } from '@/lib/countries'
 import NavBar from '@/components/NavBar.vue'
@@ -101,8 +104,8 @@ import type { Gender } from '@/models/User'
 
 const userStore = useUserStore()
 const filterStore = useFilterStore()
-const { users, loading, error } = storeToRefs(userStore)
-const { fetchUsers } = userStore
+const { users, error, pagination } = storeToRefs(userStore)
+const { initializeInfiniteScroll, loadNextPage, reset } = userStore
 
 const homeCountryFilter = computed<string[]>({
   get: () => filterStore.pageFilters.home.countryFilter,
@@ -124,7 +127,22 @@ const homeFilteredUsers = computed(() => {
 const currentCounts = computed(() => filterStore.getCountryCountsForPage('home'))
 
 const clearHomeFilters = () => filterStore.clearFilters('home')
+
+// Provide loadNextPage for UserList component
+provide('loadNextPage', loadNextPage)
+
+const handleInitialLoad = async () => {
+  await initializeInfiniteScroll()
+}
+
+const handleRetry = async () => {
+  reset()
+  await handleInitialLoad()
+}
+
 onMounted(async () => {
-  await fetchUsers(100)
+  if (users.value.length === 0) {
+    await handleInitialLoad()
+  }
 })
 </script>

@@ -39,7 +39,7 @@ export type RandomUserApiResponse = z.infer<
   ReturnType<typeof createUserSchemas>['RandomUserResponseSchema']
 >
 
-export function createUserSchemas(t: (key: string) => string) {
+export function createUserSchemas() {
   const RandomUserItemSchema = z.object({
     gender: GenderSchema,
     name: z.object({
@@ -51,17 +51,17 @@ export function createUserSchemas(t: (key: string) => string) {
       city: z.string(),
       country: z.string(),
     }),
-    email: z.email({ message: t('validation.invalidEmail') }),
+    email: z.email(),
     dob: z.object({
       age: z.number(),
     }),
     picture: z.object({
-      large: z.url({ message: t('validation.invalidUrl') }),
-      medium: z.url({ message: t('validation.invalidUrl') }),
-      thumbnail: z.url({ message: t('validation.invalidUrl') }),
+      large: z.url(),
+      medium: z.url(),
+      thumbnail: z.url(),
     }),
     login: z.object({
-      uuid: z.uuid({ message: t('validation.invalidUuid') }),
+      uuid: z.uuid(),
     }),
   })
 
@@ -76,4 +76,21 @@ export function createUserSchemas(t: (key: string) => string) {
   })
 
   return { RandomUserItemSchema, RandomUserResponseSchema }
+}
+
+//** * Pagination metadata for infinite scroll functionality*/
+export interface PaginationState {
+  currentPage: number
+  hasMore: boolean
+  isLoading: boolean
+  isInitialLoad: boolean
+  totalLoaded: number
+  pageSize: number
+}
+
+//** * Configuration options for infinite scroll behavior */
+export interface InfiniteScrollConfig {
+  threshold?: number
+  rootMargin?: string
+  debounceMs?: number
 }

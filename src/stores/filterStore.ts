@@ -5,93 +5,73 @@ import { useFavoritesStore } from './favoritesStore'
 import { COUNTRY_LIST } from '@/lib/countries'
 import type { User, PageFilters, FilterState, Gender } from '@/models/User'
 
-const createDefaultFilters = (): FilterState => ({
-  countryFilter: [],
-  genderFilter: '',
-})
-
 export const useFilterStore = defineStore('filterUsers', () => {
-  const userStore = useUserStore()
-  const favoritesStore = useFavoritesStore()
-
-  const { users: allUsers } = storeToRefs(userStore)
-  const { favoriteUsers } = storeToRefs(favoritesStore)
+  const { users: allUsers } = storeToRefs(useUserStore())
+  const { favoriteUsers } = storeToRefs(useFavoritesStore())
 
   const pageFilters = ref<PageFilters>({
-    home: createDefaultFilters(),
-    favorites: createDefaultFilters(),
+    home: { countryFilter: [], genderFilter: '' },
+    favorites: { countryFilter: [], genderFilter: '' },
   })
 
-  const getCountryCounts = (users: User[]): Record<string, number> => {
-    const counts: Record<string, number> = {}
-    COUNTRY_LIST.forEach((country) => (counts[country.iso2] = 0))
+  // Country lookup optimization
+  const countryMap = new Map(COUNTRY_LIST.map((c) => [c.name.toLowerCase(), c]))
 
-    if (!users?.length) return counts
-
-    // TODO: Optimize with Map lookup for large datasets (O(n*m) -> O(n))
-    users.forEach((user: User) => {
-      // TODO: Optimize country lookup when user count > 1000
-      const country = COUNTRY_LIST.find((c) => c.name.toLowerCase() === user.country.toLowerCase())
-      if (country && counts[country.iso2] !== undefined) {
-        counts[country.iso2]++
-      }
+  const getCountryCounts = (users: User[]) => {
+    const counts = Object.fromEntries(COUNTRY_LIST.map((c) => [c.iso2, 0]))
+    users.forEach((user) => {
+      const country = countryMap.get(user.country.toLowerCase())
+      if (country) counts[country.iso2]++
     })
-
     return counts
   }
 
-  const getCountryCountsForPage = (page: keyof PageFilters): Record<string, number> => {
-    const users =
-      page === 'home' ? homeFilteredUsers.value || [] : favoritesFilteredUsers.value || []
-    return getCountryCounts(users)
-  }
-  const getFilteredUsers = (users: User[], filterState: FilterState): User[] => {
-    if (!users?.length) return []
+  const getFilteredUsers = (users: User[], { countryFilter, genderFilter }: FilterState) => {
+    if (!users.length || (!countryFilter.length && !genderFilter)) return users
 
-    const { countryFilter, genderFilter } = filterState
-    if (!countryFilter?.length && !genderFilter) return users
-
-    return users.filter((user: User) => {
-      const country = COUNTRY_LIST.find((c) => c.name.toLowerCase() === user.country.toLowerCase())
-
-      const matchesCountry =
-        !countryFilter?.length || (country && countryFilter.includes(country.iso2))
-
-      // genderFilter: '' | 'male' | 'female'
-      const matchesGender = genderFilter === '' || user.gender === genderFilter
-
-      return matchesCountry && matchesGender
+    return users.filter((user) => {
+      const country = countryMap.get(user.country.toLowerCase())
+      return (
+        (!countryFilter.length || (country && countryFilter.includes(country.iso2))) &&
+        (!genderFilter || user.gender === genderFilter)
+      )
     })
   }
 
-  const homeFilteredUsers = computed<User[]>(() =>
-    getFilteredUsers(allUsers.value || [], pageFilters.value.home),
+  const homeFilteredUsers = computed(() => getFilteredUsers(allUsers.value, pageFilters.value.home))
+
+  const favoritesFilteredUsers = computed(() =>
+    getFilteredUsers(favoriteUsers.value, pageFilters.value.favorites),
   )
 
-  const favoritesFilteredUsers = computed<User[]>(() =>
-    getFilteredUsers(favoriteUsers.value || [], pageFilters.value.favorites),
-  )
+  const getCountryCountsForPage = (page: keyof PageFilters) => {
+    const baseUsers = page === 'home' ? allUsers.value : favoriteUsers.value
+    const { genderFilter } = pageFilters.value[page]
 
-  const updateCountryFilter = (page: keyof PageFilters, countries: string[]): void => {
-    // Use spread to create a new array reference
-    pageFilters.value[page].countryFilter = [...countries]
+    const usersToCount = genderFilter
+      ? baseUsers.filter((user) => user.gender === genderFilter)
+      : baseUsers
+
+    return getCountryCounts(usersToCount)
   }
 
-  const updateGenderFilter = (page: keyof PageFilters, gender: Gender | ''): void => {
+  const updateCountryFilter = (page: keyof PageFilters, countries: string[]) => {
+    pageFilters.value[page].countryFilter = countries
+  }
+
+  const updateGenderFilter = (page: keyof PageFilters, gender: Gender | '') => {
     pageFilters.value[page].genderFilter = gender
   }
 
-  const clearFilters = (page: keyof PageFilters): void => {
-    pageFilters.value[page] = createDefaultFilters()
+  const clearFilters = (page: keyof PageFilters) => {
+    pageFilters.value[page] = { countryFilter: [], genderFilter: '' }
   }
 
-  const getFilterState = (page: keyof PageFilters): FilterState => {
-    return pageFilters.value[page]
-  }
+  const getFilterState = (page: keyof PageFilters) => pageFilters.value[page]
 
-  const hasActiveFilters = (page: keyof PageFilters): boolean => {
-    const filters = pageFilters.value[page]
-    return (filters.countryFilter?.length ?? 0) > 0 || filters.genderFilter !== ''
+  const hasActiveFilters = (page: keyof PageFilters) => {
+    const { countryFilter, genderFilter } = pageFilters.value[page]
+    return countryFilter.length > 0 || !!genderFilter
   }
 
   return {
