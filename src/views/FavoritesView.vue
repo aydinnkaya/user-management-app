@@ -51,7 +51,9 @@
 
         <div v-else>
           <div class="flex-1 overflow-y-auto overflow-x-hidden">
-            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 p-2 pb-20 md:pb-8">
+            <div
+              class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 px-1 sm:px-2 pb-20 md:pb-8"
+            >
               <div v-for="user in favoritesFilteredUsers" :key="user.id">
                 <UserCard :user="user" />
               </div>

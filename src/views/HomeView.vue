@@ -7,25 +7,28 @@
       <div class="w-full space-y-6">
         <!-- Filters: Gender & Country -->
         <div class="h-10 pt-8">
-          <div class="max-w-screen-xl mx-auto px-4">
-            <div class="flex justify-end items-center gap-2 sm:gap-2 md:gap-3">
+          <div class="max-w-screen-xl mx-auto px-2 sm:px-4">
+            <div class="flex items-center justify-end flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
               <GenderFilter
                 :model-value="homeGenderFilter"
                 @update:model-value="(val) => (homeGenderFilter = val)"
               />
-              <CountryPickers
-                :model-value="homeCountryFilter"
-                @update:model-value="(val) => (homeCountryFilter = val)"
-                :options="COUNTRY_LIST"
-                :counts="currentCounts"
-                class="w-16 sm:w-16 md:w-16"
-              />
+
+              <div class="w-auto">
+                <CountryPickers
+                  :model-value="homeCountryFilter"
+                  @update:model-value="(val) => (homeCountryFilter = val)"
+                  :options="COUNTRY_LIST"
+                  :counts="currentCounts"
+                  class="w-auto"
+                />
+              </div>
             </div>
           </div>
         </div>
 
         <!-- User List / Loading / Error States -->
-        <div class="max-w-screen-xl mx-auto px-4 pt-6">
+        <div class="max-w-screen-xl mx-auto px-2 sm:px-4 pt-6">
           <!-- Loading Indicator (Initial) -->
           <div
             v-if="pagination.isInitialLoad && users.length === 0"
@@ -79,7 +82,9 @@
 
             <!-- User List -->
             <div v-else>
-              <UserList :users="homeFilteredUsers" :pagination="pagination" />
+              <div class="-mx-2 sm:mx-0">
+                <UserList :users="homeFilteredUsers" :pagination="pagination" />
+              </div>
             </div>
           </div>
         </div>

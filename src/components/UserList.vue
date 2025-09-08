@@ -1,7 +1,11 @@
 <template>
-  <div class="flex-1 overflow-y-auto overflow-x-hidden">
+  <div
+    class="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-800"
+  >
     <!-- User Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 p-2 pb-20 md:pb-8">
+    <div
+      class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 px-1 sm:px-2 pb-20 md:pb-8"
+    >
       <div v-for="user in users" :key="user.id">
         <UserCard :user="user" />
       </div>
