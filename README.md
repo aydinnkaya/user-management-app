@@ -25,14 +25,14 @@
 ## ✨ Features
 
 - 📖 **User directory** with country & gender filters  
+- ♾️ **Infinite Scroll** with Intersection Observer
 - ⭐ **Favorites system** persisted in `localStorage`  
 - 📱 **Responsive UI** (mobile nav bar & desktop header)  
 - ⚡ **Lazy-loaded routes/views** for performance  
-- 🧩 **SVG Sprite + BaseIcon: centralized, fast, color-inheriting icons
+- 🧩 **SVG Sprite + BaseIcon:** centralized, fast, color-inheriting icons  
 - 🔒 **Type-safe state** with Pinia + TypeScript  
 - 🚀 **Vite + Vue Devtools** for fast developer experience  
 - ✅ **Prettier + ESLint** for consistent code style  
-
 ---
 
 ## 🧱 Tech Stack
@@ -290,35 +290,47 @@ npm run preview     # local production server
 
 ### State Management (Pinia)
 
-**`src/stores/useUserStore.ts` manages:**
+**`src/stores/userStore.ts` manages:**
+
 - `users`, `selectedUser`, `favoriteUsers`
 - Filters: `countryFilter`, `genderFilter`
+- **Pagination state for infinite scroll** (`currentPage`, `hasMore`, `isLoading`)
 - Derived lists & statistics
-- localStorage persistence
+- `localStorage` persistence
 
-### Data Fetching
+---
 
-`src/composables/useUsers.ts` handles user data fetching and normalization.
-(Can be easily replaced with real API integration in the future.)
+### Data Fetching & Infinite Scroll
 
-### Icons (Heroicons)
+- **`src/composables/useUsers.ts`**  
+  Handles user data fetching and normalization.
 
-```typescript
-import { HeartIcon as HeartSolid } from '@heroicons/vue/24/solid'
-import { HeartIcon as HeartOutline } from '@heroicons/vue/24/outline'
-```
+- **`src/composables/useInfiniteScroll.ts`**  
+  Encapsulates scroll observer logic and triggers additional user fetches when the sentinel element is visible.  
+  Reusable and easily extendable for other lists.
+
 
 ### Assets
-- **Static files**: `public/` (e.g., `public/spl-logo.png`)
-- **Country flags helper**: `src/lib/flags.ts`
+
+- **Static files:** Located in `public/` (e.g., `public/spl-logo.png`)
+- **Country flags helper:** `src/lib/flags.ts`
 
 ---
 
 ## 🛟 Troubleshooting
 
-- **Blank page / 404 on refresh** → Ensure your host has SPA history fallback to `index.html`
-- **Missing styles** → Verify `src/assets/main.css` is imported in `main.ts`
-- **Missing icons** → Check if `@heroicons/vue` is installed and import paths use `/24/solid` or `/24/outline`
-- **Cross-machine inconsistencies** → Commit lockfiles and use `npm ci` for installation
+- **Blank page / 404 on refresh**  
+  Ensure your hosting environment is configured with SPA history fallback to `index.html`.
 
+- **Missing styles**  
+  Verify that `src/assets/main.css` is imported in `main.ts`.
 
+- **Missing icons**  
+  Check that `@heroicons/vue` is installed and import paths correctly use `/24/solid` or `/24/outline`.
+
+- **Infinite scroll does not trigger**  
+  Ensure the sentinel `<div ref="loadMoreRef">` is present in `UserList.vue` and that `useInfiniteScroll` composable is initialized.  
+  Also confirm that your browser supports [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
+
+- **Cross-machine inconsistencies**  
+  Commit lockfiles and use `npm ci` (or `pnpm i --frozen-lockfile` / `yarn install --immutable`) for deterministic installs. 
