@@ -23,25 +23,17 @@
 
     <!-- Scroll Sentinel -->
     <div
-      ref="sentinelRef"
-      class="h-4 w-full"
       v-if="pagination.hasMore && !pagination.isInitialLoad"
+      ref="sentinelRef"
+      class="h-20 w-full"
     ></div>
-
-    <!-- End of List Message -->
-    <div
-      v-if="!pagination.hasMore && !pagination.isInitialLoad && users.length > 0"
-      class="text-center py-6 text-neutral-500"
-    >
-      All users loaded ({{ users.length }} users)
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, inject } from 'vue'
 import { useInfiniteScroll } from '@/composables/useInfiniteScroll'
-import UserCard from '@/components/UserCard.vue'
+import UserCard from '@/components/userCard.vue'
 import type { User, PaginationState } from '@/models/User'
 
 interface Props {
@@ -55,10 +47,17 @@ const loadNextPage = inject<() => Promise<void>>('loadNextPage')
 const sentinelRef = ref<HTMLElement>()
 
 const { setSentinel } = useInfiniteScroll(() => loadNextPage?.(), {
-  threshold: 0.1,
-  rootMargin: '200px',
-  debounceMs: 10,
+  threshold: 0,
+  rootMargin: '300px',
 })
 
-watch(sentinelRef, (element) => element && setSentinel(element), { immediate: true })
+watch(
+  sentinelRef,
+  (element) => {
+    if (element) {
+      setSentinel(element)
+    }
+  },
+  { immediate: true },
+)
 </script>

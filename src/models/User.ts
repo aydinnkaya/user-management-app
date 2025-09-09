@@ -4,7 +4,6 @@ export const GENDERS = ['female', 'male'] as const
 export type Gender = (typeof GENDERS)[number]
 export const GenderSchema = z.enum(GENDERS)
 
-/** ---- Domain Types ---- */
 export interface User {
   id: string
   name: string
@@ -16,19 +15,19 @@ export interface User {
   picture: string
 }
 
-/**Represents the filtering criteria applied to the user list.*/
+/** * Represents the filtering criteria applied to the user list.*/
 export interface UserFilters {
   countries: string[]
   gender: Gender | ''
 }
 
-/**Defines the state of filters for a single page or context.*/
+/** * Defines the state of filters for a single page or context.*/
 export interface FilterState {
   countryFilter: string[]
   genderFilter: Gender | ''
 }
 
-/** Stores filter states for multiple pages/contexts in the app.*/
+/** * Stores filter states for multiple pages/contexts in the app.*/
 export interface PageFilters {
   home: FilterState
   favorites: FilterState
@@ -92,5 +91,4 @@ export interface PaginationState {
 export interface InfiniteScrollConfig {
   threshold?: number
   rootMargin?: string
-  debounceMs?: number
 }

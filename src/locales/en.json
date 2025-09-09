@@ -30,6 +30,9 @@
     }
   },
   "home": {
+    "errorState": {
+      "title": "Connection Error"
+    },
     "noUsersAvailable": {
       "title": "No Users Available",
       "message": "There are currently no users to display. Please try again later.",
@@ -88,7 +91,6 @@
       "buttonText": "Browse Users"
     }
   },
-
   "validation": {
     "invalidEmail": "Invalid email address",
     "invalidUrl": "Invalid URL format",

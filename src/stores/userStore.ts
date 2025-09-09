@@ -7,7 +7,6 @@ export const useUserStore = defineStore('user', () => {
   const MAX_USERS = 200
   const PAGE_SIZE = 20
 
-  // State
   const users = ref<User[]>([])
   const error = ref<string | null>(null)
   const seed = ref<string | null>(null)
@@ -20,10 +19,8 @@ export const useUserStore = defineStore('user', () => {
     pageSize: PAGE_SIZE,
   })
 
-  // Computed
   const isLoading = computed(() => pagination.value.isLoading)
 
-  // Composables
   const { fetchUsers } = useUsers()
 
   const generateSeed = () => `infinite_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
@@ -46,7 +43,6 @@ export const useUserStore = defineStore('user', () => {
     pagination.value.hasMore = users.value.length < MAX_USERS && newUsersCount > 0
   }
 
-  // Actions
   const initializeInfiniteScroll = async () => {
     if (users.value.length > 0) return
 
@@ -83,11 +79,11 @@ export const useUserStore = defineStore('user', () => {
       users.value.push(...usersToAdd)
       updatePagination(usersToAdd.length)
 
-      console.log(
-        pagination.value.hasMore
-          ? `${users.value.length}/${MAX_USERS} kullanicilar yüklendi`
-          : `Tüm kullanicilar yüklendi (${users.value.length} kullanici)`,
-      )
+      // console.log(
+      //   pagination.value.hasMore
+      //     ? `${users.value.length}/${MAX_USERS} kullanicilar yüklendi`
+      //     : `Tüm kullanicilar yüklendi (${users.value.length} kullanici)`,
+      // )
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Loading failed'
       console.error('Load error:', err)

@@ -11,6 +11,8 @@ const mapApiUserToUser = (apiUser: RandomUserItem): User => ({
   picture: apiUser.picture.large,
 })
 
+//**buildApiUrl(5, 2, 'test') */
+//** => https://randomuser.me/api/?results=5&inc=gender,name,location,email,dob,picture,login&seed=test&page=2 */
 const buildApiUrl = (count: number, page?: number, seed?: string): string => {
   const params = new URLSearchParams({
     results: count.toString(),

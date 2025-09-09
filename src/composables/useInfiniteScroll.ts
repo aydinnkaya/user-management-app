@@ -5,56 +5,67 @@ export function useInfiniteScroll(
   callback: () => Promise<void> | void,
   config: InfiniteScrollConfig = {},
 ) {
-  const { threshold, rootMargin, debounceMs } = config
+  const { threshold = 0, rootMargin = '300px' } = config
 
   const sentinelElement = ref<HTMLElement | null>(null)
-  let observer: IntersectionObserver | null = null
-  let debounceTimer: ReturnType<typeof setTimeout> | null = null
+  let sentinelObserver: IntersectionObserver | null = null
+  let isExecuting: boolean = false
 
   const executeCallback = async () => {
+    if (isExecuting) return
+
+    isExecuting = true
     try {
       await callback()
     } catch (err) {
       console.error('Infinite scroll callback error:', err)
+    } finally {
+      isExecuting = false
     }
   }
 
   const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-    if (!entries[0]?.isIntersecting) return
+    if (entries[0]?.isIntersecting) {
+      console.log('Calling executeCallback')
 
-    if (debounceTimer) clearTimeout(debounceTimer)
-    debounceTimer = setTimeout(executeCallback, debounceMs)
+      executeCallback()
+    }
   }
 
   const initializeObserver = () => {
     if (!sentinelElement.value) return
 
-    observer = new IntersectionObserver(handleIntersection, {
+    sentinelObserver = new IntersectionObserver(handleIntersection, {
       root: null,
       rootMargin,
       threshold,
     })
 
-    observer.observe(sentinelElement.value)
+    sentinelObserver.observe(sentinelElement.value)
   }
 
   const cleanup = () => {
-    observer?.disconnect()
-    observer = null
-    if (debounceTimer) {
-      clearTimeout(debounceTimer)
-      debounceTimer = null
-    }
+    sentinelObserver?.disconnect()
+    sentinelObserver = null
+    isExecuting = false
   }
 
   const setSentinel = (element: HTMLElement | null) => {
     cleanup()
     sentinelElement.value = element
-    if (element) nextTick(initializeObserver)
+    if (element) {
+      nextTick(initializeObserver)
+    }
   }
 
-  onMounted(() => nextTick(initializeObserver))
+  onMounted(() => {
+    nextTick(initializeObserver)
+  })
+
   onUnmounted(cleanup)
 
-  return { sentinelElement, setSentinel }
+  return {
+    sentinelElement,
+    setSentinel,
+  }
 }

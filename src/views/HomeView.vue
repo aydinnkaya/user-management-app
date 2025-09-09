@@ -29,9 +29,18 @@
 
         <!-- User List / Loading / Error States -->
         <div class="max-w-screen-xl mx-auto px-2 sm:px-4 pt-6">
-          <!-- Loading Indicator (Initial) -->
+          <EmptyState
+            v-if="error"
+            :title="$t('home.errorState.title')"
+            :message="error"
+            :buttonText="$t('common.tryAgain')"
+            :spriteName="'warning_icon'"
+            @click="handleRetry"
+          />
+
+          <!-- Loading Indicator -->
           <div
-            v-if="pagination.isInitialLoad && users.length === 0"
+            v-else-if="pagination.isInitialLoad && users.length === 0"
             class="flex justify-center items-center py-10"
           >
             <div class="relative">
@@ -41,38 +50,11 @@
             </div>
           </div>
 
-          <!-- Error Message -->
-          <div
-            v-else-if="error"
-            class="rounded-lg border border-red-400 bg-red-500/10 text-red-200 px-4 py-3 flex items-center justify-between"
-          >
-            <div class="flex items-center gap-2">
-              <BaseIcon name="warning_icon" size="20" class="text-red-500" />
-              <span class="text-sm">{{ error }}</span>
-            </div>
-            <button
-              @click="handleRetry"
-              class="px-3 py-1.5 rounded-md bg-red-600 text-white text-sm hover:bg-red-700 transition-colors"
-            >
-              {{ $t('common.tryAgain') }}
-            </button>
-          </div>
-
           <!-- Main Content -->
           <div v-else>
-            <!-- No Users Available -->
-            <EmptyState
-              v-if="users.length === 0"
-              :title="$t('home.noUsersAvailable.title')"
-              :message="$t('home.noUsersAvailable.message')"
-              :buttonText="$t('home.noUsersAvailable.buttonText')"
-              :spriteName="'profile'"
-              @click="handleInitialLoad"
-            />
-
             <!-- No Users Match Filters -->
             <EmptyState
-              v-else-if="homeFilteredUsers.length === 0"
+              v-if="homeFilteredUsers.length === 0"
               :title="$t('home.noUsersMatchFilters.title')"
               :message="$t('home.noUsersMatchFilters.message')"
               :buttonText="$t('home.noUsersMatchFilters.buttonText')"
@@ -102,7 +84,6 @@ import UserList from '@/components/UserList.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
 import EmptyState from '@/components/EmptyState.vue'
-import BaseIcon from '@/components/BaseIcon.vue'
 import { useUserStore } from '@/stores/userStore'
 import { useFilterStore } from '@/stores/filterStore'
 import type { Gender } from '@/models/User'
@@ -133,7 +114,7 @@ const currentCounts = computed(() => filterStore.getCountryCountsForPage('home')
 
 const clearHomeFilters = () => filterStore.clearFilters('home')
 
-// Provide loadNextPage for UserList component
+//** *Provide loadNextPage for UserList component */
 provide('loadNextPage', loadNextPage)
 
 const handleInitialLoad = async () => {
