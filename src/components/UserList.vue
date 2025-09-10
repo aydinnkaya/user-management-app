@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import { ref, watch, inject } from 'vue'
 import { useInfiniteScroll } from '@/composables/useInfiniteScroll'
-import UserCard from '@/components/userCard.vue'
+import UserCard from '@/components/UserCard.vue'
 import type { User, PaginationState } from '@/models/User'
 
 interface Props {

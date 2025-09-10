@@ -89,3 +89,5 @@ export const COUNTRY_LIST: CountryOption[] = [
   { name: 'Ghana', iso2: 'gh', flag: getFlagUrl('gh') },
   { name: 'Tanzania', iso2: 'tz', flag: getFlagUrl('tz') },
 ]
+
+export const COUNTRY_MAP = new Map(COUNTRY_LIST.map((c) => [c.name.toLowerCase(), c]))

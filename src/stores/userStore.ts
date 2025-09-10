@@ -79,11 +79,11 @@ export const useUserStore = defineStore('user', () => {
       users.value.push(...usersToAdd)
       updatePagination(usersToAdd.length)
 
-      // console.log(
-      //   pagination.value.hasMore
-      //     ? `${users.value.length}/${MAX_USERS} kullanicilar yüklendi`
-      //     : `Tüm kullanicilar yüklendi (${users.value.length} kullanici)`,
-      // )
+      console.log(
+        pagination.value.hasMore
+          ? `${users.value.length}/${MAX_USERS} kullanicilar yüklendi`
+          : `Tüm kullanicilar yüklendi (${users.value.length} kullanici)`,
+      )
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Loading failed'
       console.error('Load error:', err)

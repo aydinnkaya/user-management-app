@@ -147,11 +147,10 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import type { CountryOption } from '@/lib/countries'
+import { COUNTRY_LIST, type CountryOption } from '@/lib/countries' // senin countries dosyan
 
 interface Props {
   modelValue: string[]
-  options: CountryOption[]
   counts?: Record<string, number>
 }
 const props = defineProps<Props>()
@@ -165,7 +164,7 @@ const maxPreview = 3
 
 const filtered = computed(() => {
   const needle = q.value.trim().toLowerCase()
-  return props.options.filter(
+  return COUNTRY_LIST.filter(
     (c) =>
       !needle || c.name.toLowerCase().includes(needle) || c.iso2.toLowerCase().includes(needle),
   )
@@ -183,24 +182,19 @@ const ordered = computed(() => {
 
 const flagMap = computed(() => {
   const m = new Map<string, string>()
-  for (const c of props.options) m.set(c.iso2, c.flag)
+  for (const c of COUNTRY_LIST) m.set(c.iso2, c.flag)
   return m
 })
 
 const flagOf = (iso2: string) => flagMap.value.get(iso2) || `https://flagcdn.com/w20/${iso2}.png`
-const isSelected = (c: CountryOption) => {
-  return props.modelValue.includes(c.iso2)
-}
+const isSelected = (c: CountryOption) => props.modelValue.includes(c.iso2)
 
 function toggle(c: CountryOption) {
   const newSelection = [...props.modelValue]
   const index = newSelection.indexOf(c.iso2)
 
-  if (index > -1) {
-    newSelection.splice(index, 1)
-  } else {
-    newSelection.push(c.iso2)
-  }
+  if (index > -1) newSelection.splice(index, 1)
+  else newSelection.push(c.iso2)
 
   emit('update:modelValue', newSelection)
 }
