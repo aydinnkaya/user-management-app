@@ -117,6 +117,8 @@ user-management-app/
 ### 📽️ Application Walkthrough
 <div align="center">
 
+
+
 https://github.com/user-attachments/assets/af9a1fcf-5fc1-48d0-9d62-d89cda460946
 
 <br><em>🚀 Complete application demo showcasing responsive design, filtering capabilities, and user management features</em>
@@ -128,44 +130,45 @@ https://github.com/user-attachments/assets/af9a1fcf-5fc1-48d0-9d62-d89cda460946
 
 ### 🏠 Home View & User Directory
 <div align="center">
-<img width="600" alt="Home View Desktop" src="https://github.com/user-attachments/assets/61518d79-f726-4f4b-901b-2173e02dfe8f" />
+<img width="1438" height="799" alt="Home View Desktop" src="https://github.com/user-attachments/assets/1f52a7f2-8cd0-481f-92ef-a635d0b6d228" />
 <br><em>Desktop - Home view with user directory and filtering</em>
+</div>
+
+
+### ⭐ Favorites View!
+<div align="center">
+<img width="1438" height="799" alt="Favorites View Desktop"src="https://github.com/user-attachments/assets/64f0868d-4021-48b6-accf-90db1656c9b0" />
+<br><em>Desktop - Favorites management with filtering options</em>
 </div>
 
 ### 🔍 Explore View & User Listings
 <div align="center">
-<img width="600" alt="Explore View Desktop" src="https://github.com/user-attachments/assets/dcad5664-841d-477e-9202-cfc1d40b8b2c" />
-<br><em>Desktop - Explore view with advanced user browsing</em>
+<img width="1438" height="799" alt="Screenshot 2025-09-15 at 17 56 26" src="https://github.com/user-attachments/assets/bb6da931-e971-452c-be69-aec180eaafb1" /><br><em>Desktop - Explore view with advanced user browsing</em>
 </div>
 
-### ⭐ Favorites View
+### 💬 Chat View
 <div align="center">
-<img width="600" alt="Favorites View Desktop" src="https://github.com/user-attachments/assets/12442d56-fc1f-4a42-89c4-0787e15789ff" />
-<br><em>Desktop - Favorites management with filtering options</em>
+<img width="1438" height="799" alt="Screenshot 2025-09-15 at 17 57 34" src="https://github.com/user-attachments/assets/ef27e65f-ea07-48f9-8586-6a1eafd0497f" /><br><em>Desktop - Chat interface and messaging view</em>
 </div>
 
 ### 👤 User Profile View
 <div align="center">
-<img width="600" alt="User Profile Desktop" src="https://github.com/user-attachments/assets/4c77ed46-9183-4a92-ad10-3d72cbd65551" />
+<img width="1438" height="799" alt="Screenshot 2025-09-15 at 17 53 21" src="https://github.com/user-attachments/assets/b7c2bc4c-0f50-4469-aa76-557c524e3cbf" />
 <br><em>Desktop - Individual user profile with detailed information</em>
 </div>
 
 ### 🎛️ Filter Components
 <div align="center">
-<img width="600" alt="Country Filter Component" src="https://github.com/user-attachments/assets/65dc213f-1f0a-489e-ac99-eeb2fd772762" />
+<img width="1438" height="799" alt="Screenshot 2025-09-15 at 17 58 17" src="https://github.com/user-attachments/assets/0c012cda-1db5-4d7b-a6fa-895563c132b1" />
 <br><em>Desktop - Country picker component with statistics</em>
 </div>
 
+### 👤 Other Profile View
 <div align="center">
-<img width="600" alt="Gender Filter Component" src="https://github.com/user-attachments/assets/ba8b715e-9515-4bcb-9fe6-249395c88cac" />
-<br><em>Desktop - Gender filter component interface</em>
+<img width="1438" height="891" alt="Screenshot 2025-09-15 at 17 59 13" src="https://github.com/user-attachments/assets/bd1f77d4-42d9-43f7-92a7-4200ad8d7be1" />
+<br><em>Desktop - Individual user profile with detailed information</em>
 </div>
 
-### 💬 Chat View
-<div align="center">
-<img width="600" alt="Chat View Desktop" src="https://github.com/user-attachments/assets/ace902b9-d9ab-4a51-8519-6ab9e7ba9d97" />
-<br><em>Desktop - Chat interface and messaging view</em>
-</div>
 
 ---
 
@@ -173,34 +176,34 @@ https://github.com/user-attachments/assets/af9a1fcf-5fc1-48d0-9d62-d89cda460946
 
 ### 🏠 Mobile Home & Navigation
 <div align="center">
-<img width="300" alt="Mobile Home View" src="https://github.com/user-attachments/assets/7324ce82-9c93-449d-ae85-6294d0c13abd" />
+<img width="1438" height="891" alt="Mobile Home View" src="https://github.com/user-attachments/assets/7324ce82-9c93-449d-ae85-6294d0c13abd" />
 <br><em>Mobile - Home view with responsive navigation</em>
 </div>
 
 ### 👥 Mobile User Management
 <div align="center">
-<img width="300" alt="Mobile User List" src="https://github.com/user-attachments/assets/49405362-de04-429a-adbd-4df4023c2f90" />
-<img width="300" alt="Mobile User Cards" src="https://github.com/user-attachments/assets/f9866e89-0fe0-40bf-a4a9-e746383da66d" />
+<img width="1438" height="891" alt="Mobile User List" src="https://github.com/user-attachments/assets/49405362-de04-429a-adbd-4df4023c2f90" />
+<img width="1438" height="891" alt="Mobile User Cards" src="https://github.com/user-attachments/assets/f9866e89-0fe0-40bf-a4a9-e746383da66d" />
 <br><em>Mobile - User list and card components</em>
 </div>
 
 ### 📱 Mobile Navigation Components
 <div align="center">
-<img width="300" alt="Mobile Navigation Bar" src="https://github.com/user-attachments/assets/330a6bf6-2442-4789-94f8-3c638d4a9737" />
-<img width="300" alt="Mobile Menu" src="https://github.com/user-attachments/assets/7aaec652-3e2c-46af-8036-10785bec5e6d" />
+<img width="1438" height="891" alt="Mobile Navigation Bar" src="https://github.com/user-attachments/assets/330a6bf6-2442-4789-94f8-3c638d4a9737" />
+<img width="1438" height="891" alt="Mobile Menu" src="https://github.com/user-attachments/assets/7aaec652-3e2c-46af-8036-10785bec5e6d" />
 <br><em>Mobile - Bottom navigation and menu interface</em>
 </div>
 
 ### ⭐ Mobile Favorites
 <div align="center">
-<img width="300" alt="Mobile Favorites View" src="https://github.com/user-attachments/assets/791ea48d-25fd-4ab7-a872-e5cdfa642284" />
-<img width="300" alt="Mobile Favorites Management" src="https://github.com/user-attachments/assets/41a95791-58bc-43da-b522-667208c0a12b" />
+<img width="1438"  height="891" alt="Mobile Favorites View" src="https://github.com/user-attachments/assets/791ea48d-25fd-4ab7-a872-e5cdfa642284" />
+<img width="1438"  height="891" alt="Mobile Favorites Management" src="https://github.com/user-attachments/assets/41a95791-58bc-43da-b522-667208c0a12b" />
 <br><em>Mobile - Favorites view and management interface</em>
 </div>
 
 ### 🎛️ Mobile Filter Interface
 <div align="center">
-<img width="300" alt="Mobile Filters" src="https://github.com/user-attachments/assets/94bf9caf-189b-442a-a6f0-6b308ac781ec" />
+<img width="1438" height="891" alt="Mobile Filters" src="https://github.com/user-attachments/assets/94bf9caf-189b-442a-a6f0-6b308ac781ec" />
 <br><em>Mobile - Filter components optimized for touch</em>
 </div>
 
@@ -210,18 +213,18 @@ https://github.com/user-attachments/assets/af9a1fcf-5fc1-48d0-9d62-d89cda460946
 
 ### 🖥️ Tablet Layout Adaptation
 <div align="center">
-<img width="500" alt="Tablet Home View" src="https://github.com/user-attachments/assets/a7b9f0e0-ae68-43b8-9155-4ac892aecdc3" />
+<img width="1438"  height="891" alt="Tablet Home View" src="https://github.com/user-attachments/assets/a7b9f0e0-ae68-43b8-9155-4ac892aecdc3" />
 <br><em>Tablet - Home view with adapted layout</em>
 </div>
 
 <div align="center">
-<img width="500" alt="Tablet User Management" src="https://github.com/user-attachments/assets/a97641e0-c0f3-4fad-8b0e-1c538a1b1d64" />
+<img width="1438"  height="891" alt="Tablet User Management" src="https://github.com/user-attachments/assets/a97641e0-c0f3-4fad-8b0e-1c538a1b1d64" />
 <br><em>Tablet - User management interface</em>
 </div>
 
 ### 🎨 Additional Mobile Interface
 <div align="center">
-<img width="300" alt="Mobile User Interface Detail" src="https://github.com/user-attachments/assets/4803763e-10b1-4405-88fd-7ef8a09b4b2b" />
+<img width="1438"  height="891" alt="Mobile User Interface Detail" src="https://github.com/user-attachments/assets/4803763e-10b1-4405-88fd-7ef8a09b4b2b" />
 <br><em>Mobile - Detailed user interface components</em>
 </div>
 
