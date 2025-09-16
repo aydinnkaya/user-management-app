@@ -7,12 +7,10 @@ import aspectRatio from '@tailwindcss/aspect-ratio'
 export default {
   theme: {
     extend: {
-      // GLOBAL CONTAINER
       container: { center: true, padding: '1rem' },
 
-      // DESIGN TOKENS
       colors: {
-        appbg: '#141414', // <- istediğin koyu/siyah tonu
+        appbg: '#141414',
       },
 
       fontFamily: {

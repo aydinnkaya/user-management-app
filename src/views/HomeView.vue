@@ -7,27 +7,42 @@
       <div class="w-full space-y-6">
         <!-- Filters: Gender & Country -->
         <div class="h-10 pt-8">
-          <div class="max-w-screen-xl mx-auto px-4">
-            <div class="flex justify-end items-center gap-2 sm:gap-2 md:gap-3">
+          <div class="max-w-screen-xl mx-auto px-2 sm:px-4">
+            <div class="flex items-center justify-end flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
               <GenderFilter
                 :model-value="homeGenderFilter"
                 @update:model-value="(val) => (homeGenderFilter = val)"
               />
-              <CountryPickers
-                :model-value="homeCountryFilter"
-                @update:model-value="(val) => (homeCountryFilter = val)"
-                :options="COUNTRY_LIST"
-                :counts="currentCounts"
-                class="w-16 sm:w-16 md:w-16"
-              />
+
+              <div class="w-auto">
+                <CountryPickers
+                  :model-value="homeCountryFilter"
+                  @update:model-value="(val) => (homeCountryFilter = val)"
+                  :options="COUNTRY_LIST"
+                  :counts="currentCounts"
+                  class="w-auto"
+                />
+              </div>
             </div>
           </div>
         </div>
 
         <!-- User List / Loading / Error States -->
-        <div class="max-w-screen-xl mx-auto px-4 pt-6">
+        <div class="max-w-screen-xl mx-auto px-2 sm:px-4 pt-6">
+          <EmptyState
+            v-if="error"
+            :title="$t('home.errorState.title')"
+            :message="error"
+            :buttonText="$t('common.tryAgain')"
+            :spriteName="'warning_icon'"
+            @click="handleRetry"
+          />
+
           <!-- Loading Indicator -->
-          <div v-if="loading" class="flex justify-center items-center py-10">
+          <div
+            v-else-if="pagination.isInitialLoad && users.length === 0"
+            class="flex justify-center items-center py-10"
+          >
             <div class="relative">
               <div
                 class="animate-spin rounded-full h-10 w-10 border-2 border-neutral-600 border-t-blue-500"
@@ -35,38 +50,11 @@
             </div>
           </div>
 
-          <!-- Error Message -->
-          <div
-            v-else-if="error"
-            class="rounded-lg border border-red-400 bg-red-500/10 text-red-200 px-4 py-3 flex items-center justify-between"
-          >
-            <div class="flex items-center gap-2">
-              <BaseIcon name="warning_icon" size="20" class="text-red-500" />
-              <span class="text-sm">{{ error }}</span>
-            </div>
-            <button
-              @click="fetchUsers(100)"
-              class="px-3 py-1.5 rounded-md bg-red-600 text-white text-sm hover:bg-red-700 transition-colors"
-            >
-              {{ $t('common.tryAgain') }}
-            </button>
-          </div>
-
           <!-- Main Content -->
           <div v-else>
-            <!-- No Users Available -->
-            <EmptyState
-              v-if="users.length === 0"
-              :title="$t('home.noUsersAvailable.title')"
-              :message="$t('home.noUsersAvailable.message')"
-              :buttonText="$t('home.noUsersAvailable.buttonText')"
-              :spriteName="'profile'"
-              @click="fetchUsers(100)"
-            />
-
             <!-- No Users Match Filters -->
             <EmptyState
-              v-else-if="homeFilteredUsers.length === 0"
+              v-if="homeFilteredUsers.length === 0"
               :title="$t('home.noUsersMatchFilters.title')"
               :message="$t('home.noUsersMatchFilters.message')"
               :buttonText="$t('home.noUsersMatchFilters.buttonText')"
@@ -76,7 +64,9 @@
 
             <!-- User List -->
             <div v-else>
-              <UserList :users="homeFilteredUsers" />
+              <div class="-mx-2 sm:mx-0">
+                <UserList :users="homeFilteredUsers" :pagination="pagination" />
+              </div>
             </div>
           </div>
         </div>
@@ -86,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, provide } from 'vue'
 import { storeToRefs } from 'pinia'
 import { COUNTRY_LIST } from '@/lib/countries'
 import NavBar from '@/components/NavBar.vue'
@@ -94,15 +84,14 @@ import UserList from '@/components/UserList.vue'
 import GenderFilter from '@/components/genderFilter.vue'
 import CountryPickers from '@/components/CountryPickers.vue'
 import EmptyState from '@/components/EmptyState.vue'
-import BaseIcon from '@/components/BaseIcon.vue'
 import { useUserStore } from '@/stores/userStore'
 import { useFilterStore } from '@/stores/filterStore'
 import type { Gender } from '@/models/User'
 
 const userStore = useUserStore()
 const filterStore = useFilterStore()
-const { users, loading, error } = storeToRefs(userStore)
-const { fetchUsers } = userStore
+const { users, error, pagination } = storeToRefs(userStore)
+const { initializeInfiniteScroll, loadNextPage, reset } = userStore
 
 const homeCountryFilter = computed<string[]>({
   get: () => filterStore.pageFilters.home.countryFilter,
@@ -124,7 +113,22 @@ const homeFilteredUsers = computed(() => {
 const currentCounts = computed(() => filterStore.getCountryCountsForPage('home'))
 
 const clearHomeFilters = () => filterStore.clearFilters('home')
+
+//** *Provide loadNextPage for UserList component */
+provide('loadNextPage', loadNextPage)
+
+const handleInitialLoad = async () => {
+  await initializeInfiniteScroll()
+}
+
+const handleRetry = async () => {
+  reset()
+  await handleInitialLoad()
+}
+
 onMounted(async () => {
-  await fetchUsers(100)
+  if (users.value.length === 0) {
+    await handleInitialLoad()
+  }
 })
 </script>

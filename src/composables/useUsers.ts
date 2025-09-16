@@ -1,46 +1,53 @@
-import { useI18n } from 'vue-i18n'
 import { createUserSchemas, type User, type RandomUserItem } from '@/models/User'
 
-function mapApiUserToUser(apiUser: RandomUserItem): User {
-  return {
-    id: apiUser.login.uuid,
-    name: `${apiUser.name.first} ${apiUser.name.last}`,
-    age: apiUser.dob.age,
-    gender: apiUser.gender,
-    email: apiUser.email,
-    city: apiUser.location.city,
-    country: apiUser.location.country,
-    picture: apiUser.picture.large,
-  }
+const mapApiUserToUser = (apiUser: RandomUserItem): User => ({
+  id: apiUser.login.uuid,
+  name: `${apiUser.name.first} ${apiUser.name.last}`,
+  age: apiUser.dob.age,
+  gender: apiUser.gender,
+  email: apiUser.email,
+  city: apiUser.location.city,
+  country: apiUser.location.country,
+  picture: apiUser.picture.large,
+})
+
+//**buildApiUrl(5, 2, 'test') */
+//** => https://randomuser.me/api/?results=5&inc=gender,name,location,email,dob,picture,login&seed=test&page=2 */
+const buildApiUrl = (count: number, page?: number, seed?: string): string => {
+  const params = new URLSearchParams({
+    results: count.toString(),
+    inc: 'gender,name,location,email,dob,picture,login',
+  })
+
+  if (seed) params.append('seed', seed)
+  if (page && page > 1) params.append('page', page.toString())
+
+  return `https://randomuser.me/api/?${params}`
 }
 
 export function useUsers() {
-  const { t } = useI18n()
-  const { RandomUserResponseSchema } = createUserSchemas(t)
+  const { RandomUserResponseSchema } = createUserSchemas()
 
-  const fetchUsers = async (count: number): Promise<User[]> => {
+  const fetchUsers = async (count: number, page?: number, seed?: string): Promise<User[]> => {
     try {
-      const response = await fetch(
-        `https://randomuser.me/api/?results=${count}&inc=gender,name,location,email,dob,picture,login`,
-      )
+      const response = await fetch(buildApiUrl(count, page, seed))
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
       const rawData = await response.json()
+      const parsed = RandomUserResponseSchema.safeParse(rawData)
 
-      const validatedData = RandomUserResponseSchema.parse(rawData)
-
-      return validatedData.results.map(mapApiUserToUser)
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error('Error fetching users:', error.message)
-        throw new Error(t('common.error'))
-      } else {
-        console.error('Unknown error fetching users:', error)
-        throw new Error(t('common.error'))
+      if (!parsed.success) {
+        console.error('Validation error:', parsed.error)
+        throw new Error('Data validation failed')
       }
+
+      return parsed.data.results.map(mapApiUserToUser)
+    } catch (error) {
+      console.error('Error fetching users:', error)
+      throw error instanceof Error ? error : new Error('Unknown error occurred')
     }
   }
 

@@ -93,15 +93,20 @@ import { getFlagUrl } from '@/lib/flags'
 
 const userStore = useUserStore()
 const { users } = storeToRefs(userStore)
+const { initializeInfiniteScroll } = userStore
 
 const user = computed<User | null>(() => users.value[0] ?? null)
 
 const flagSrc = computed(() => (user.value ? getFlagUrl(user.value.country, 20) : ''))
 
-onMounted(() => {
-  userStore.fetchUsers(100)
-  window.scrollTo({ top: 0, behavior: 'instant' })
-})
+const handleInitialLoad = async () => {
+  await initializeInfiniteScroll()
+}
 
+onMounted(async () => {
+  if (users.value.length === 0) {
+    await handleInitialLoad()
+  }
+})
 const capitalizeGender = (g: string) => g.charAt(0).toUpperCase() + g.slice(1)
 </script>
